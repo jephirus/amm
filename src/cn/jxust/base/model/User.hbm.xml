@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.jxust.base.model.User" table="base_user">
+
+		<id column="user_id" name="userId" type="java.lang.Integer"
+			unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="userName" type="java.lang.String">
+			<column name="user_name" unique="true" length="50"></column>
+		</property>
+		<property name="phoneNumber" type="java.lang.String">
+			<column name="phone_number" unique="true" length="50"></column>
+		</property>
+		<property column="password" length="50" name="password"
+			type="java.lang.String" >
+		</property>
+
+		<many-to-one name="userDep" column="department_id"
+			class="cn.jxust.base.model.Department" />
+
+		<property column="user_desc" length="50" name="userDesc"
+			type="java.lang.String">
+		</property>
+	
+		<list name="userRole" table="base_user_role" cascade="all"
+			lazy="false">
+			<key column="user_id" />
+			<index column="xh"></index>
+			<many-to-many class="cn.jxust.base.model.Role" column="role_id" />
+		</list>
+
+		<property column="enabled" length="2" name="enabled"
+			type="java.lang.Boolean">
+		</property>
+
+		<property column="real_name" length="50" name="realName"
+			type="java.lang.String">
+		</property>
+		
+		<property name="type" type="java.lang.Integer">
+			<column name="type" length="4" />
+		</property>
+		
+        <set name="device" table="user_device" inverse="true" lazy="false">  
+            <key column="user_id" />  
+            <many-to-many column="device_id" class="cn.jxust.device.model.Device" />  
+        </set>          
+	</class>
+</hibernate-mapping>

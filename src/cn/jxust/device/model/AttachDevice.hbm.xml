@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.jxust.device.model.AttachDevice" table="attach_device">
+		
+		<id name="attachDeviceId" type="java.lang.Integer" column="attach_device_id" unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="attachDeviceNum" type="java.lang.String">
+			<column name="attach_device_num" length="20" />
+		</property>
+		
+		<property name="location" type="java.lang.String">
+			<column name="location" length="180" />
+		</property>
+		
+		<property name="currentStatus" type="java.lang.String">
+			<column name="current_status" length="140" />
+		</property>
+		
+		<property name="alarmTime" type="java.lang.String">
+			<column name="alarm_time" length="120" />
+		</property>
+		
+		<property name="installDate" type="java.lang.String">
+			<column name="install_date" length="80" />
+		</property>
+		
+        <many-to-one name="device" column="device_id" 
+            class="cn.jxust.device.model.Device">   <!-- column="id"外键名  -->  
+        </many-to-one>
+	</class>
+</hibernate-mapping>

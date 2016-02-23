@@ -1,0 +1,1 @@
+在web的classpath下建立template文件夹存放ftl文件

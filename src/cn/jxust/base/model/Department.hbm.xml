@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cn.jxust.base.model.Department" table="base_department">
+
+		<id name="departmentId" type="java.lang.Integer" column="department_id">
+			<generator class="identity" />
+		</id>
+
+		<property name="departmentName" type="java.lang.String"
+			column="department_name" length="50">
+		</property>
+
+		<property name="departmentDesc" type="java.lang.String"
+			column="department_desc" length="150">
+		</property>
+
+		<property name="phoneNumber" type="java.lang.String"
+			column="phone_number" length="150">
+		</property>
+
+		<property name="address" type="java.lang.String"
+			column="address" length="150">
+		</property>
+
+		<set name="areas" order-by="department_id" cascade="all">
+			<key column="department_id"/>
+			<one-to-many class="cn.jxust.base.model.Area"/>
+		</set>
+		
+		<set name="users" order-by="department_id"><!-- 此处order-by="department_id"中department_id是列名非成员变量名 -->
+			<key column="department_id"></key><!--指定为“多”的一方的外键，与“一”端得主键相关联--> 
+			<one-to-many class="cn.jxust.base.model.User"/>
+		</set>
+	</class>
+</hibernate-mapping>
+
+
+

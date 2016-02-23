@@ -1,0 +1,125 @@
+* html { /* Success! #733c29*/
+	background: url('img/bodybg.jpg') top center #F4F4F4;
+	background-repeat: repeat-y;
+	padding: 0;
+	margin: 0;
+	font-size: 13px;
+}
+
+.defaultLinkBlack {
+	color: #000;
+}
+
+.defaultLinkSize {
+	font-size: 13px;
+}
+
+.defaultLinkWhite {
+	color: #FFF;
+}
+
+body {
+	background: url('img/bodybg.jpg') top center #F4F4F4;
+	background-repeat: repeat-y;
+	padding: 0;
+	margin: 0;
+}
+
+.menu {
+	font-weight: bolder;
+	color: #000;
+}
+
+.container {
+	padding: 0;
+	margin: 0 auto;
+	zoom: 1;
+}
+
+.title {
+	color: #FFF;
+	font-weight: bold;
+	font-family: '楷体';
+}
+
+.mainbody {
+	background: #FFF;
+	width: 945px;
+}
+
+.banner {
+	padding: 5px 5px 0 5px;
+	border: 1px solid #EEE;
+}
+
+.tail {
+	margin-top: 5px;
+	text-align: center;
+	font-size: 12px;
+	background: url("img/tail.gif") center;
+	color: #FFF;
+}
+/* Custom container */
+.maintitle {
+	height: 30px;
+	background: url("img/bt.jpg") no-repeat 0px -5px;
+	padding: 0 0 0 17px;
+	margin: 0;
+}
+
+.column {
+	background: url("img/title.gif") right top;
+	background-repeat: no-repeat;
+	padding: 0px 5px 5px 45px;
+	color: #1b5ce1;
+}
+
+.right_title {
+	background: url("img/right_title.gif");
+	background-repeat: repeat-x;
+	color: #FFF;
+	padding: 5px 0 5px 30px;
+	font-size: 12px;
+}
+
+.more {
+	float: right;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.table_range {
+	background: url("img/table_range.jpg");
+	background-repeat: no-repeat;
+	padding: 5px 0 5px 30px;
+	border-bottom: 2px solid #c82708;
+	color: #FFF;
+}
+
+.copyright {
+	margin-top: 15px;
+	font-size: 12px;
+	text-align: center;
+}
+
+.new{
+	background: url("img/new.jpg") no-repeat bottom right;
+}
+
+/*================= slider ==================*/
+.sliderBtn { background:url("img/btnico/sprite.png") no-repeat; cursor: pointer; height: 100px; position:relative; top:30%; z-index:100; width:45px;}
+#prevBtn { left:0; float:left;}
+#nextBtn { background-position:right top; right:0; float:right;}
+<<<<<<< default.css
+#btnList { height:25px; position:absolute; bottom:5px; padding:0 10px 0 10px; list-style: none}
+/*===============num================*/
+.num { width:22px; height:22px; line-height:25px; text-align:center; cursor:pointer; margin-left:0px; background:#000; color:#FFF; float:right; border:1px solid #ccc; overflow:hidden; list-style: none}
+.num_act { width:22px; height:22px; line-height:25px; text-align:center; cursor:pointer; margin-left:0px; background:#000; color:#FFF;float:right; border:1px solid #ccc; overflow:hidden;}
+.num_hover { width:22px; height:22px; line-height:25px; text-align:center; cursor:pointer; margin-left:0px; background:#F00; color:#FFF;float:right; border:1px solid #ccc; overflow:hidden;}
+=======
+#btnList { height:15px; position:absolute; bottom:22px; padding:0 10px 0 10px; list-style: none;}
+/*===============数字按钮默认样式================*/
+.num { width:12px; height:12px; line-height:12px; text-align:center; cursor:pointer; margin-left:1px; background:#000; color:#FFF; float:right; border:1px solid #ccc; overflow:hidden; list-style: none;font-size: 12px;}
+.num_act { width:12px; height:12px; line-height:12px; text-align:center; cursor:pointer; margin-left:1px; background:#F00; color:#FFF;float:right; border:1px solid #ccc; overflow:hidden;font-size: 12px;}
+.num_hover { width:12px; height:12px; line-height:12px; text-align:center; cursor:pointer; margin-left:1px; background:#F00; color:#FFF;float:right; border:1px solid #ccc; overflow:hidden;font-size: 12px;}
+>>>>>>> 1.14

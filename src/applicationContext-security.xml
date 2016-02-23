@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/security
+						http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+    <!-- default -->
+    <http pattern="/" security="none"/>
+    <!-- favicon.ico -->
+    <http pattern="/favicon.ico" security="none"/>
+    <!-- js -->
+    <http pattern="/resource/**" security="none"/>
+    <!-- news list -->
+    <http pattern="/list/**" security="none"/>
+    <!-- news details -->
+    <http pattern="/view/**" security="none"/>
+    <!-- default picture action -->
+    <http pattern="/picture/**" security="none"/>
+    <!-- default resource list -->
+    <http pattern="/html/**" security="none"/>
+    <!-- default page change Department Type -->
+    <http pattern="/dept/**" security="none"/>
+    <!-- default search news -->
+    <http pattern="/search.php*" security="none"/>
+    <!-- 留言板 -->
+    <http pattern="/web/messages/*" security="none"/>
+    <!-- user login -->
+    <http pattern="/login.php*" security="none"/>
+    
+    <global-method-security secured-annotations="enabled" jsr250-annotations="enabled"/><!-- 通过注解进行拦截方法调用 -->
+    
+    <http entry-point-ref="authenticationProcessingFilterEntryPoint" access-denied-page="/html/503.html"><!-- 无权限时，导入该页面 -->
+    
+    	<!-- 拦截所有页面 -->
+    	<intercept-url pattern="/**" access="ROLE_LOGIN"/>
+    	
+    	<!-- 注销 -->
+        <logout logout-success-url="/login.php" />
+        <!-- 会话管理配置,配置session过期跳转的地址 -->
+        <session-management invalid-session-url="/login.php">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+        </session-management>
+        
+        <!-- 实现免登陆验证 -->
+        <remember-me />
+
+		<!-- 自定义过滤器 -->
+       	<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER"  />
+    </http>
+    
+    <!-- 登录验证器(自定义) -->
+    <beans:bean id="loginFilter"
+		class="cn.jxust.springsecurity.JxustUsernamePasswordAuthenticationFilter">
+		<!-- 处理登录 -->
+		<beans:property name="filterProcessesUrl" value="/check"></beans:property>
+		<beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler"></beans:property>
+		<beans:property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler"></beans:property>
+		<beans:property name="authenticationManager" ref="myAuthenticationManager"></beans:property>
+		
+	</beans:bean>
+	
+	<beans:bean id="loginLogAuthenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/loading.php"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="simpleUrlAuthenticationFailureHandler"
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/login.php?msg=error"></beans:property>
+	</beans:bean>
+
+    <!-- 实现了UserDetailsService的Bean -->
+    <authentication-manager alias="myAuthenticationManager">
+        <authentication-provider user-service-ref="myUserDetailServiceImpl" />
+    </authentication-manager>
+    
+    <beans:bean id="myUserDetailServiceImpl" class="cn.jxust.springsecurity.JxustUserDetailServiceImpl">
+	</beans:bean>
+
+	<!-- 未登录的切入点 -->
+	<beans:bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:property name="loginFormUrl" value="/login.php"></beans:property>
+	</beans:bean>
+</beans:beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cn.jxust.base.model.Config" table="web_config">
+
+		<id name="configId" type="java.lang.String" column="config_id">
+			<generator class="uuid.hex" />
+		</id>
+
+		<property name="configKey" type="java.lang.String" column="config_key"
+			length="50">
+		</property>
+
+		<property name="configValue" type="java.lang.String" column="config_value"
+			length="250">
+		</property>
+	</class>
+</hibernate-mapping>
+
+
+
