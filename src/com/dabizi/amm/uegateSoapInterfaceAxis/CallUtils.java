@@ -9,9 +9,6 @@ import org.junit.Test;
 
 import cn.jxust.sms.model.SMSInfo;
 
-import com.sun.xml.internal.txw2.IllegalAnnotationException;
-
-
 /**
  * @author lt
  * @crateTime 2015-7-10 上午10:37:19
@@ -52,7 +49,7 @@ public class CallUtils {
 	 */
 	public static SMSInfo sendMsg(String content, String mobileString) {
 		if(content.isEmpty()&&mobileString.isEmpty()){ // 非法参数
-			throw new IllegalAnnotationException("参数不能为空");
+			throw new ArithmeticException("参数不能为空");
 		}
 		// 短信提交
 		UegateSoap uegatesoap = new UegateSoap();

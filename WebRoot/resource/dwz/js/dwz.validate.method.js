@@ -13,7 +13,7 @@
 		}, "Letters only please"); 
 		
 		$.validator.addMethod("phone", function(value, element) {
-			return this.optional(element) || /^[0-9 \(\)]{7,30}$/.test(value);
+			return this.optional(element) || /^[0-9 \(\)]{11,11}$/.test(value);  // 电话号只能是11位
 		}, "Please specify a valid phone number");
 		
 		$.validator.addMethod("postcode", function(value, element) {

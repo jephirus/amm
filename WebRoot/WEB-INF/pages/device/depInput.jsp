@@ -132,7 +132,7 @@
 </script>
 <div class="pageContent">
 	<form method="post" action="${ctx}/device/save.php" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
-		<div class="pageFormContent">
+		<div class="pageFormContent" layoutH="56">
 			<p>
 				<label style="text-align: right">控制器名称：</label>
 				<input name="deviceName" class="required" type="text" size="30" value="${device.deviceName}" alt="请输入控制器名称"/>

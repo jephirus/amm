@@ -176,7 +176,17 @@ public class DeviceAction  extends BaseDwzAction
 			List<Department> dl = new ArrayList<Department>();
 			dl.add(d);
 			model.addAttribute("departments", dl);
-			model.addAttribute("users", d.getUsers());
+			List<User> lu = new ArrayList<User>();
+			lu.addAll(d.getUsers());
+			for (int i = 0; i < lu.size(); i++)
+			{
+				if(lu.get(i).getType() != 3)   // 只给类型为3的用户关联控制器，也即单位管理员。
+				{
+					lu.remove(lu.get(i));
+				}
+			}
+
+			model.addAttribute("users", lu);
 			model.addAttribute("areas", d.getAreas());
 			return "/device/depInput";
 		}
@@ -346,6 +356,13 @@ public class DeviceAction  extends BaseDwzAction
 		
 		List<User> lu = new ArrayList<User>();
 		lu.addAll(department.getUsers());
+		for (int i = 0; i < lu.size(); i++)
+			{
+				if(lu.get(i).getType() != 3)   // 只给类型为3的用户关联控制器，也即单位管理员。
+				{
+					lu.remove(lu.get(i));
+				}
+			}
 		JSONArray users = JSONArray.fromObject(lu, userConfig);
 		
 	    result.put("areas", areas.toString());

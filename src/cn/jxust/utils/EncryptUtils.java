@@ -37,29 +37,6 @@ public class EncryptUtils
 	}
 
 	/**
-	 * 用base64算法进行加密
-	 * @param 需要加密的字符串
-	 * @return 加密后的字符串
-	 */
-	public static String base64Encode(String str)
-	{
-		BASE64Encoder encoder = new BASE64Encoder();
-		return encoder.encode(str.getBytes());
-	}
-
-	/**
-	 * 用base64算法进行解密
-	 * @param 需要加密的字符串
-	 * @return 加密后的字符串
-	 * @throws IOException
-	 */
-	public static String base64Decode(String str) throws IOException
-	{
-		BASE64Decoder encoder = new BASE64Decoder();
-		return new String(encoder.decodeBuffer(str));
-	}
-
-	/**
 	 * 加密算法
 	 * @param 需要加密的字符串
 	 * @param 加密方法

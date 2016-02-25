@@ -79,8 +79,8 @@ public class AreaAction extends BaseDwzAction{
 	 * @date:2015年10月18日下午7:51:20 
 	 * @param: @param area
 	 */
-	@RequestMapping(value="/save.php",method=RequestMethod.POST)
-	public @ResponseBody Map<String,String> save(Area area, Integer departmentId){
+	@RequestMapping(value = "/save.php", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> save(Area area, Integer departmentId){
 		Department department = departmentService.find(departmentId);
 		area.setDepartment(department);
 		if(area.getAreaId()==null){
@@ -91,6 +91,7 @@ public class AreaAction extends BaseDwzAction{
 		
 		return closeCurrentAndRefresh("areaList");
 	}
+
 	/**
 	 * @Description: 批量删除区域
 	 * @author:laiy

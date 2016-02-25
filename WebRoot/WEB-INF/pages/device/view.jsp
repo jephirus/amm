@@ -30,8 +30,8 @@
 			</p>
 			<c:forEach var="manager" items="${device.deviceManagers}">
 				<p>
-					<label style="text-align: right">管理员：</label>
-					<input type="text" size="20" value="${manager.realName}" readonly/>
+					<label style="text-align: right;width:80px;">管理员：</label>
+					<input type="text" size="30" value="${manager.realName}" readonly/>
 				</p>
 			</c:forEach>
 		</div>

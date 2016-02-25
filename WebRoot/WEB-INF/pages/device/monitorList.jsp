@@ -120,7 +120,7 @@ function refreshNavTab()
 						<a class="view"
 							href="${ctx}/device/view/${entity.deviceId}.php"
 							target="dialog" rel="addDialog" title="查看控制器" mask="true"
-							width="680" height="300">详细信息</a>
+							width="680" height="222">详细信息</a>
 					</td>
 				</tr>
 			</c:forEach>

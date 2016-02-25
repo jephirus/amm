@@ -2,9 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <div class="pageContent">
-	<form method="post" action="${ctx}/base/deparea/save.php"
-		class="pageForm required-validate"
-		onsubmit="return validateCallback(this, dialogAjaxDone);">
+	<form method="post" action="${ctx}/base/deparea/save.php" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
 		<div class="pageFormContent">
 			<p>
 				<label style="text-align: right">区域名称：</label> 
@@ -25,17 +23,9 @@
 		</div>
 		<div class="formBar">
 			<ul>
-				<li><div class="buttonActive">
-						<div class="buttonContent">
-							<button type="submit">保存</button>
-						</div>
-					</div></li>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
 				<li>
-					<div class="button">
-						<div class="buttonContent">
-							<button type="button" class="close">取消</button>
-						</div>
-					</div>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
 				</li>
 			</ul>
 		</div>

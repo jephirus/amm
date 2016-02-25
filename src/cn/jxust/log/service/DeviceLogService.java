@@ -43,6 +43,11 @@ public class DeviceLogService extends BaseService<DeviceLog>
 	{
 		return (DeviceLogDao)baseDao;
 	}
+
+	public PageData<DeviceLog> getDeviceLogByQuery(String deviceName,
+			String proberLocation, String beginDate, String endDate, int pageNum) {
+		return null;
+	}
 	
 
 }

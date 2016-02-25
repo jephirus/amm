@@ -10,7 +10,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="${ctx}/base/department/new.php" target="dialog" rel="addDialog" title="单位信息新增" mask="true" width="400" height="254"><span>添加</span></a></li>
+			<li><a class="add" href="${ctx}/base/department/new.php" target="dialog" rel="addDialog" title="单位信息新增" mask="true" width="400" height="260"><span>添加</span></a></li>
 			<li class="line">line</li>
 			<li><a class="delete" href="${ctx}/base/department/delete.php" target="selectedTodo" rel="items" title="确定要删除吗?"><span>批量删除</span></a></li>
 		</ul>

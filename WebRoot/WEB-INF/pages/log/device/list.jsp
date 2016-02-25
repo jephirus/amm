@@ -3,12 +3,41 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags'%>
 
+<div class="pageHeader">
+	<form onsubmit="return navTabSearch(this);" action="${ctx}/contracts/contracts/statQuery.html" method="post">
+		<div class="searchBar">
+			<table class="searchContent">
+				<tr>
+					<td style="width:130px;">
+						<select class="combox" name="device" ref="prober_select" refUrl="demo/combox/city_{value}.html">
+							<option value="all">选择控制器</option>
+							<option value="bj">北京</option>
+							<option value="sh">上海</option>
+						</select>
+					</td>
+					<td style="width:130px;">
+						<select class="combox" name="prober" id="prober_select" ref="w_combox_area">
+							<option value="all">探测器</option>
+						</select>
+					</td>
+					<td style="width:230px;">
+						<p>
+						<label style="width:50px;">时间：</label>
+						<input type="text" readonly="readonly" size="8" class="date" name="beginDate" value="${param['beginDate']}">
+							<span class="limit">-</span>
+						<input type="text" readonly="readonly" size="8" class="date" name="endDate" value="${param['endDate']}">
+						</p>
+					</td>
+					<td>
+						<button type="submit">检索</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
 <div class="pageContent">
-	<div class="panelBar">
-		<ul class="toolBar">
-		</ul>
-	</div>
-	<table class="table" width="100%" layoutH="76" rel="quotaBox">
+	<table class="table" width="100%" layoutH="86" rel="quotaBox">
 		<thead>
 			<tr>
 				<th width="40" align="center">

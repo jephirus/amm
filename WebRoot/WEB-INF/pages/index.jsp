@@ -212,17 +212,17 @@
 										</sec:authorize>
 										<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN">
 											<li><a href="${ctx}/base/user/list/1.php" target="navTab" rel="userList">超级访客维护</a></li>
-											<li><a href="${ctx}/base/user/list/2.php" target="navTab" rel="guestList">单位访客维护</a></li>
+											<li><a href="${ctx}/base/user/list/2.php" target="navTab" rel="userList">单位访客维护</a></li>
 											<li><a href="${ctx}/base/department/list.php" target="navTab" rel="departmentList">单位/机构用户维护</a></li>
 										</sec:authorize>
 									</ul>
 								</li>
 								<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
-									<li><a>区域管理</a>
-										<ul>
-											<li><a href="${ctx}/base/deparea/list.php" target="navTab" rel="areaList">区域维护</a></li>
-										</ul>
-									</li>
+								<li><a>区域管理</a>
+									<ul>
+										<li><a href="${ctx}/base/deparea/list.php" target="navTab" rel="areaList">区域维护</a></li>
+									</ul>
+								</li>
 								</sec:authorize>
 <%-- 								<li><a>短信信息管理</a>
 									<ul>

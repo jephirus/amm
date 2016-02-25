@@ -13,7 +13,7 @@
 			</p>
 			<p>
 				<label style="text-align: right">电话号码：</label>
-				<input name="phoneNumber" type="text" size="30" value="${user.phoneNumber}" />
+				<input name="phoneNumber" type="text" size="30" value="${user.phoneNumber}" class="required phone textInput" />
 			</p>
 			<p>
 		　　  		<c:if test="${type != '1'}">

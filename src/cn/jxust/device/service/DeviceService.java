@@ -54,6 +54,11 @@ public class DeviceService extends BaseService<Device>
 		return getDeviceDao().findList("from Device");
 	}
 	
+	/**
+	 * 获取某单位所有的控制器信息。
+	 * @param department
+	 * @return
+	 */
 	public List<Device> findAll(Department department)
 	{
 		return getDeviceDao().findAll(department);

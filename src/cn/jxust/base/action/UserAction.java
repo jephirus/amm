@@ -162,7 +162,6 @@ public class UserAction extends BaseDwzAction {
 		user.setUserRole(lr);
 		user.setPassword("111111"); // 初始化密码
 		user.setRealName(user.getUserName()); // 将从前台传来的userName赋给realName
-		//user.setUserName(user.getPhoneNumber()); // 将电话号码作为用户的登录名userName。
 
 		if (user.getUserId() == null) {
 			userService.save(user);

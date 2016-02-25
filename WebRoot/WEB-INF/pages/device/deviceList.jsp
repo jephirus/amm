@@ -7,7 +7,7 @@
 	<div class="panelBar">
 		<ul class="toolBar">
 			<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
-				<li><a class="add" href="${ctx}/device/new.php" target="dialog" rel="addDialog" title="控制器信息新增" mask="true" width="830" height="224"><span>添加</span></a></li>
+				<li><a class="add" href="${ctx}/device/new.php" target="dialog" rel="addDialog" title="控制器信息新增" mask="true" width="830" height="250"><span>添加</span></a></li>
 				<li class="line">line</li>
 				<li><a class="delete" href="${ctx}/device/delete.php" target="selectedTodo" rel="items" title="确定要删除吗?"><span>批量删除</span></a></li>
 			</sec:authorize>
