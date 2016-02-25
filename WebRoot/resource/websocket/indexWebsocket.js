@@ -16,18 +16,37 @@
             // 刷新控制器页面
             if(message[3]){
         		if(message[3] === storage.getItem("areaId")){
-        			navTab.openTab("deviceList","/amm/device/monitorList/"+message[3]+".php");
+        			navTab.openTab("deviceList","/amm/device/monitorList/"+message[3]+".php",{title:"警告"});
         		}
+        		var col;
+        		if(message[2] == '1')
+        			col = 'red';
+        		else if(message[2] == '2')
+        			col = 'yellow';
+        		var ll = message[1].split('|');
+    			var point = new BMap.Point(ll[1], ll[0]); // 点击位置的坐标
+    			var marker = new BMap.Marker(point, {
+                // 指定Marker的icon属性为Symbol
+                    icon: new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+                              scale: 0.9,          // 图标缩放大小
+                              fillColor: col,  // 填充颜色
+                              fillOpacity: 1       // 填充透明度
+                          }),
+                    title : '控制器信息'
+                });   // 创建标注
+    			map.addOverlay(marker);		// 将标注添加到地图中
+    			addClickHandler(marker);	// 点击左键时，可查看结点信息.
+
         	}
             
         	if (message[2] == "1")  // 报警
         	{
-				$('<audio id="alarmAudio" loop="loop"><source src="http://127.0.0.1:888/amm/resource/websocket/alarm.mp3" type="audio/wav"></audio>').appendTo('body');
+				$('<audio id="alarmAudio" loop="loop"><source src="http://127.0.0.1/amm/resource/websocket/alarm.mp3" type="audio/wav"></audio>').appendTo('body');
 				$('#alarmAudio')[0].play();
 			}
         	else if(message[2] == "2")  // 故障
 			{
-				$('<audio id="faultAudio" loop="loop"><source src="http://127.0.0.1:888/amm/resource/websocket/fault.mp3" type="audio/wav"></audio>').appendTo('body');
+				$('<audio id="faultAudio" loop="loop"><source src="http://127.0.0.1/amm/resource/websocket/fault.mp3" type="audio/wav"></audio>').appendTo('body');
 				$('#faultAudio')[0].play();
 			}
         };  
@@ -49,7 +68,9 @@
         }
         console.scrollTop = console.scrollHeight;
     }
-    
+    /**
+     * 关闭声音报警
+     */
     function shutDown()
     {
     	if ($('#alarmAudio')[0] != null)

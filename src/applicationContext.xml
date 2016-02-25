@@ -20,7 +20,6 @@
 		<property name="password" value="${jdbc.password}" />
 		<property name="initialSize" value="${jdbc.initialSize}" />
 		<property name="maxActive" value="${jdbc.maxActive}" />
-		<property name="maxIdle" value="${jdbc.maxIdle}" />
 		<property name="minIdle" value="${jdbc.minIdle}" />
 	</bean>
 

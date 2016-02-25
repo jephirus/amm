@@ -2,7 +2,7 @@ package cn.jxust.log.action;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.jxust.base.model.Department;
 import cn.jxust.common.action.BaseDwzAction;
 import cn.jxust.device.model.Device;
+import cn.jxust.device.model.Prober;
 import cn.jxust.device.service.DeviceService;
 import cn.jxust.log.model.DeviceLog;
 import cn.jxust.log.service.DeviceLogService;
@@ -32,9 +33,7 @@ import cn.jxust.orm.PageData;
 @RequestMapping("/log/device")
 public class DeviceLogAction extends BaseDwzAction
 {
-	@Resource
-	private DeviceLogService deptQuotaService;
-	
+
 	@Resource
 	private DeviceService deviceService;
 	
@@ -62,8 +61,8 @@ public class DeviceLogAction extends BaseDwzAction
 		return mv;
 	}
 	
-	@RequestMapping(value = "/statQuery.html")
-	public String statQuery(@RequestParam(defaultValue = "1") int pageNum,
+	@RequestMapping(value = "/getDeviceLogByQuery.html")
+	public String getDeviceLogByQuery(@RequestParam(defaultValue = "1") int pageNum,
 			String deviceName, String proberLocation, String beginDate, String endDate, Model model) {
 		PageData<DeviceLog> pageData = deviceLogService.getDeviceLogByQuery(deviceName, proberLocation,
 				beginDate, endDate, pageNum);
@@ -71,34 +70,29 @@ public class DeviceLogAction extends BaseDwzAction
 		return "/log/device/list";
 	}
 
-	@RequestMapping(value = "/delete.php")
-	public @ResponseBody Map<String, String> delete(String[] items)
-	{
-		deptQuotaService.delete(items);
-		return refresh("deptQuotaList");
-	}
-	
 	/**
-	 * 启用
+	 * 用于级联查找控制器下的所有探测器
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/enable/{id}.php")
-	public @ResponseBody Map<String, String> enable(@PathVariable("id") String id)
+	@RequestMapping(value = "/probers/{id}.php")
+	public @ResponseBody String probersForCascade(@PathVariable("id") Integer deviceId)
 	{
-		//deptQuotaService.enable(id);
-		return refresh("deptQuotaList");
+		Set<Prober> probers = deviceService.find(deviceId).getProbers();
+		StringBuffer jsonProbers = new StringBuffer();
+		jsonProbers.append("[");
+		probers.size();
+		for(Prober prober: probers)
+		{
+			jsonProbers.append("[\"");   // json格式数据要加双引号“”
+			jsonProbers.append(prober.getLocation());
+			jsonProbers.append("\",\"");
+			jsonProbers.append(prober.getLocation());
+			jsonProbers.append("\"],");
+		}
+		jsonProbers.deleteCharAt(jsonProbers.length()-1);
+		jsonProbers.append("]");
+		return jsonProbers.toString();
 	}
 	
-	/**
-	 * 禁用
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/disable/{id}.php")
-	public @ResponseBody Map<String, String> disable(@PathVariable("id") String id)
-	{
-		//deptQuotaService.disable(id);
-		return refresh("deptQuotaList");
-	}
 }

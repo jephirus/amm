@@ -2,9 +2,11 @@
 
 // 百度地图API功能;点击生成和拖动标注
 var iscreatr = false;
+var map;
+var infoBox;
 function initialize() {
 
-	var map = new BMap.Map("allmap", {
+	map = new BMap.Map("allmap", {
 		minZoom : 12,
 		maxZoom : 20
 	}); // 创建Map实例
@@ -92,7 +94,7 @@ function initialize() {
 			];
 	
 	// 结点信息展示窗口
-	var infoBox = new BMapLib.InfoBox(
+	infoBox = new BMapLib.InfoBox(
 			map,
 			popWindow.join(""),
 			{
@@ -238,8 +240,7 @@ function initialize() {
 
 		var jsonList = eval("(" + data + ")");
 		for ( var i = 0; i < jsonList.length; i++) {
-			var point = new BMap.Point(jsonList[i]['longitude'],
-					jsonList[i]['latitude']); // 点击位置的坐标
+			var point = new BMap.Point(jsonList[i]['longitude'], jsonList[i]['latitude']); // 点击位置的坐标
 			var marker = new BMap.Marker(point, {
             // 指定Marker的icon属性为Symbol
                 icon: new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
@@ -262,36 +263,6 @@ function initialize() {
 
 	});
 
-	function addClickHandler(marker) {
-		marker.addEventListener("click", function(e) {
-			infoBox.close();//在点击标注时关闭其他菜单
-			var marketpoint = marker.getPosition(); // 获取一个点
-			var lng = marketpoint.lng;
-			var lat = marketpoint.lat;
-			$.ajax({
-				url : "index/PointInfo/getPIByLL.php",
-				type : 'POST',
-				data : {
-					longitude : lng,
-					latitude : lat
-				},
-				success : function(data) {
-					infoBox.open(marker);
-					$('#closeBtn').click(function() {
-						infoBox.close();
-					});
-					
-					$("#deviceCode").val(data.deviceCode),
-					$("#proberCount").val(data.proberCount),
-					$("#areaName").val(data.areaName),
-					$("#departmentName").val(data.departmentName),
-					$("#status").val(data.status),
-					$("#attachDeviceCount").val(data.attachDeviceCount)
-				}
-			});
-		});
-	}
-//setTimeout("initialize()", 20000);
 } // end initiallize mothed
 
 function loadScript() {
@@ -299,4 +270,37 @@ function loadScript() {
 	script.src = "http://api.map.baidu.com/api?v=2.0&ak=FeoRVTzuiEzFowm1en3fx6bC&callback=initialize";
 	document.body.appendChild(script);
 
+}
+/**
+ * 当鼠标左键点击结点时，显示相关信息。
+ * @param marker
+ */
+function addClickHandler(marker) {
+	marker.addEventListener("click", function(e) {
+		infoBox.close();//在点击标注时关闭其他菜单
+		var marketpoint = marker.getPosition(); // 获取一个点
+		var lng = marketpoint.lng;
+		var lat = marketpoint.lat;
+		$.ajax({
+			url : "index/PointInfo/getPIByLL.php",
+			type : 'POST',
+			data : {
+				longitude : lng,
+				latitude : lat
+			},
+			success : function(data) {
+				infoBox.open(marker);
+				$('#closeBtn').click(function() {
+					infoBox.close();
+				});
+				
+				$("#deviceCode").val(data.deviceCode),
+				$("#proberCount").val(data.proberCount),
+				$("#areaName").val(data.areaName),
+				$("#departmentName").val(data.departmentName),
+				$("#status").val(data.status),
+				$("#attachDeviceCount").val(data.attachDeviceCount)
+			}
+		});
+	});
 }
