@@ -116,7 +116,12 @@ public class AttachDeviceAction extends BaseDwzAction
 	@RequestMapping(value = "/delete.php", method = RequestMethod.POST)
 	public @ResponseBody Map<String, String> delete(Integer[] items)
 	{
+		Device device = attachDeviceService.find(items[0]).getDevice();
 		attachDeviceService.delete(items);
+		
+		device.setAttachDeviceCount(device.getAttachDeviceCount() - items.length);	// // 当删除外控器时，相应的控制器数量也要减去
+		deviceService.update(device);
+		
 		return refresh("attachDeviceList");
 	}
 	
