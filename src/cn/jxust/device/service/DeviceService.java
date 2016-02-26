@@ -80,6 +80,7 @@ public class DeviceService extends BaseService<Device>
 				p.setInstallDate(new Date().toString());
 				p.setDevice(device);
 				proberService.save(p);  // 再保存控测器
+				getDeviceDao().update(device);
 			}
 			// 最后保存外控器
 			for (int i = 0; i < attachDeviceCount; i++) {
@@ -90,9 +91,11 @@ public class DeviceService extends BaseService<Device>
 				ad.setDevice(device);
 				attachDeviceService.save(ad);  // 再保存控测器
 			}
-		}else{   // 更新对象
+		}
+		else{   // 更新对象
 			Device serialDevice = getDeviceDao().find(device.getDeviceId());
-			for (int i = serialDevice.getProberCount(); i < proberCount; i++)
+			int pCount = proberCount + serialDevice.getProberCount();
+			for (int i = serialDevice.getProberCount(); i < pCount; i++)
 			{
 				p = new Prober();
 				p.setProberNum(String.format("%08d", i + 1));
@@ -102,23 +105,23 @@ public class DeviceService extends BaseService<Device>
 				p.setHighThickness("50.0");
 				p.setInstallDate(new Date().toString());
 				p.setDevice(serialDevice);
+				serialDevice.setProberCount(pCount);
 				proberService.save(p);  // 再保存控测器
 			}
-			serialDevice.setProberCount(proberCount);
-			
+			int aCount = attachDeviceCount + serialDevice.getAttachDeviceCount();
 			// 最后保存外控器
-			for (int i = serialDevice.getAttachDeviceCount(); i < attachDeviceCount; i++)
+			for (int i = serialDevice.getAttachDeviceCount(); i < aCount; i++)
 			{
 				ad = new AttachDevice();
 				ad.setAttachDeviceNum(String.format("%08d", i + 1));
 				ad.setLocation(String.format("%08d", i + 1));
 				ad.setInstallDate(new Date().toString());
 				ad.setDevice(serialDevice);
+				serialDevice.setAttachDeviceCount(aCount);
 				attachDeviceService.save(ad);  // 再保存控测器
 			}
-			serialDevice.setAttachDeviceCount(attachDeviceCount);
 
-			getDeviceDao().update(device);
+			getDeviceDao().update(serialDevice);
 		}
 	}
 

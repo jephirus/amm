@@ -113,4 +113,11 @@ public class AttachDeviceAction extends BaseDwzAction
 		return closeCurrentAndRefresh("attachDeviceList");
 	}
 
+	@RequestMapping(value = "/delete.php", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> delete(Integer[] items)
+	{
+		attachDeviceService.delete(items);
+		return refresh("attachDeviceList");
+	}
+	
 }

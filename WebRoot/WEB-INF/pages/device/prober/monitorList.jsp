@@ -6,12 +6,7 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-<%-- 			<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
-				<li><a class="add" href="${ctx}/prober/addProberCount/${deviceId}.php" target="dialog" rel="addDialog" title="探测器添加数量" mask="true" width="500" height="128"><span>添加</span></a></li>
-				<li class="line">line</li>
-				<li><a class="delete" href="${ctx}/base/user/delete.php" target="selectedTodo" rel="items" title="确定要删除吗?"><span>批量删除</span></a></li>
-			</sec:authorize>
- --%>		</ul>
+		</ul>
 	</div>
 	<table class="table" width="100%" layoutH="76" rel="quotaBox">
 		<thead>

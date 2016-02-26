@@ -244,8 +244,8 @@ public class DeviceAction  extends BaseDwzAction
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/view/{deviceId}.php")
-	public String viewForm(@PathVariable("deviceId") Integer id, Model model)
+	@RequestMapping(value = "/view/{proberId}.php")
+	public String viewForm(@PathVariable("proberId") Integer id, Model model)
 	{
 		Device device = deviceService.find(id);
 		Set<User> u = device.getDeviceManagers();

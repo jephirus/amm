@@ -120,4 +120,20 @@ public class ProberAction extends BaseDwzAction
 		mv.setViewName("/device/prober/monitorList");
 		return mv;
 	}
+	
+	@RequestMapping(value = "/delete.php", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> delete(Integer[] items)
+	{
+		
+		Prober prober = proberService.find(items[0]);
+		Device device = prober.getDevice();
+		
+		proberService.delete(items);
+		
+		device.setProberCount(device.getProberCount() - items.length);	// 当删除探测器时，相应的控制器数量也要减去
+		deviceService.update(device);
+
+		return refresh("proberList");
+	}
+	
 }
