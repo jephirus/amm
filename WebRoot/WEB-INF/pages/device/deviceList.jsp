@@ -45,10 +45,10 @@
 					<td>
 						<a class="view"
 							href="${ctx}/prober/list/${entity.deviceId}.php"
-							target="navTab" rel="proberList" title="探测器列表">探测器</a>&nbsp;
+							target="navTab" rel="proberList" title="探测器：${entity.deviceName}">探测器</a>&nbsp;
 						<a class="view"
 							href="${ctx}/attachDevice/list/${entity.deviceId}.php"
-							target="navTab" rel="attachDeviceList" title="查看外控器">外控器</a>&nbsp;
+							target="navTab" rel="attachDeviceList" title="外控器：${entity.deviceName}">外控器</a>&nbsp;
 						<a href="${ctx}/device/reset/${entity.deviceId}.php"
 							target="ajaxTodo" title="确定要复位吗？">复位</a>
 						<a href="${ctx}/device/edit/${entity.deviceId}.php" target="dialog" width="830" height="224">修改</a>

@@ -37,7 +37,8 @@ import com.dabizi.point.service.PointInfoService;
  * 负责处理连接上来的客户机，即消息处理器
  */
 @Component
-public class AlarmMessageHandler extends IoHandlerAdapter {
+public class AlarmMessageHandler extends IoHandlerAdapter
+{
 
 	@Resource
 	private MessageService messageService;
@@ -103,16 +104,17 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 		}
 		// 将报文信息存入数据库
 
-		StringBuffer sb = new StringBuffer();
-		//System.out.println("time:"+timeLaber);
-		sb.append(timeLaber.substring(0, 2) + "年");
-		sb.append(timeLaber.substring(2, 4) + "月");
-		sb.append(timeLaber.substring(4, 6) + "日");
-		sb.append(timeLaber.substring(6, 8) + "时");
-		sb.append(timeLaber.substring(8, 10) + "分");
-		sb.append(timeLaber.substring(10, 12) + "秒");
-		timeLaber = sb.toString();
-		
+		if (!message.toString().equals("error"))	// 当返回消息为“error”是，不作处理。
+		{
+			StringBuffer sb = new StringBuffer();
+			sb.append(timeLaber.substring(0, 2) + "年");
+			sb.append(timeLaber.substring(2, 4) + "月");
+			sb.append(timeLaber.substring(4, 6) + "日");
+			sb.append(timeLaber.substring(6, 8) + "时");
+			sb.append(timeLaber.substring(8, 10) + "分");
+			sb.append(timeLaber.substring(10, 12) + "秒");
+			timeLaber = sb.toString();
+		}
 		if (sysMessage != null) {
 			sysMessage.setTimeLaber(timeLaber);
 			sysStateMessageService.save(sysMessage);
@@ -140,7 +142,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 			}
 			else if (conMessage != null)   // 带浓度的探测器
 			{
-				this.handleProberWithConcentration(conMessage, pointInfo, timeLaber);
+				handleProberWithConcentration(conMessage, pointInfo, timeLaber);
 			}
 		}
 		session.write("发送成功");
@@ -218,7 +220,8 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 				phoneNumbers += user.getPhoneNumber() + ",";
 			}
 		}
-		if (null != pointInfo) {
+		if (null != pointInfo)
+		{
 			pointInfo.setStatus(PointInfo.STATUS_ERROR);
 			if (flagAndStat[2].equals("1")) {
 				pointInfo.setStatusColor("red");
@@ -240,7 +243,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 * @param device
 	 * @param pointInfo
 	 */
-	private void sendRecoverShortMessage(Object message, Device device)
+	private void sendRecoverShortMessage(Object message, Device device, PointInfo pointInfo)
 	{
 
 		StringBuffer msgSb = new StringBuffer();
@@ -268,6 +271,14 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 			msgSb.append(conMessage.getDeviceAddress() + "探测器于"); // 探测器地址
 			msgSb.append(conMessage.getTimeLaber() + "恢复正常。【东震】");
 		}
+		
+		if (null != pointInfo)	// 当报警或故障恢复时，颜色设为绿色。
+		{
+			pointInfo.setStatus(PointInfo.STATUS_OK);
+			pointInfo.setStatusColor("green");
+			pointInfoService.update(pointInfo);
+		}
+
 		// 发短信
 		String phoneNumbers = "";
 		Set<User> us = device.getDeviceManagers();
@@ -292,7 +303,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 		String status = sysMessage.getControllerStatus(); // 获取控制器状态
 		
 		if (null != device)    // 如果存在该控制器
-		{ 
+		{
 			pointInfo = device.getPointInfo(); // 获取地图结点
 			if (status.equals(""))   // 控制器正常
 			{
@@ -356,7 +367,8 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 							proberService.update(p);
 						}
 					}
-				}else if (type == 11 && errorDevices.get(address)[0].equals("7"))    // 探测器带浓度报警
+				}
+				else if (type == 11 && errorDevices.get(address)[0].equals("7"))    // 探测器带浓度报警
 				{
 					device.setProberAlarmCount(device.getProberAlarmCount() -1);// 探测器故障解除，恢复为0.
 					for (Prober p : device.getProbers())
@@ -532,7 +544,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 						deviceService.update(device);
 						errorDevices.remove(address);
 					}
-					this.sendRecoverShortMessage(conMessage, device);
+					this.sendRecoverShortMessage(conMessage, device, pointInfo);
 				}
 				else   // 状态一直正常，但结果也要显示在监控列表中
 				{
