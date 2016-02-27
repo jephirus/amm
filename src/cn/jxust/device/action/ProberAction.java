@@ -125,8 +125,7 @@ public class ProberAction extends BaseDwzAction
 	public @ResponseBody Map<String, String> delete(Integer[] items)
 	{
 		
-		Prober prober = proberService.find(items[0]);
-		Device device = prober.getDevice();
+		Device device = proberService.find(items[0]).getDevice();
 		
 		proberService.delete(items);
 		

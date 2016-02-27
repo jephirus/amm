@@ -15,7 +15,8 @@
             }
             // 刷新控制器页面
             if(message[3]){
-        		if(message[3] === storage.getItem("areaId")){
+        		if(message[3] === storage.getItem("areaId"))
+        		{
         			navTab.openTab("deviceList","/amm/device/monitorList/"+message[3]+".php",{title:"警告"});
         		}
         		var col;

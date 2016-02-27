@@ -144,7 +144,7 @@ public class MyDecoder extends CumulativeProtocolDecoder {
 				//--------以上至此为止控制单元解析并写入Message对象完毕---------
 				
 				if (dataLen > 0 && order == 2) {
-					flg = Integer.parseInt(str.substring(44, 46), 16);//获取数据单元标志符，1：控制器，2:探测器/外控器，7：带浓度的控测器
+					flg = Integer.parseInt(str.substring(44, 46), 16);// 获取数据单元标志符，1：控制器，2:探测器/外控器，7：带浓度的控测器
 					amount = Integer.parseInt(str.substring(46, 48), 16);//数据个数
 
 					switch (flg) {

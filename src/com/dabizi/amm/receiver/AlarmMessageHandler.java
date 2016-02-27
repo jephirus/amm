@@ -480,6 +480,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 */
 	private void handleProberWithConcentration(ConcentrationMessage conMessage, PointInfo pointInfo, String timeLaber)
 	{
+		
 		Device device = deviceService.findByDeviceCode(conMessage.getInfoID() + conMessage.getSysAddress());
 		String address ="11" + device.getDeviceCode() + conMessage.getDeviceAddress(); // 此地址为该控制器下的探测器地址：控制器地址+探测器地址
 		if (null != device) // 如果存在该设备
