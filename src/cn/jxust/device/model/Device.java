@@ -23,6 +23,10 @@ public class Device {
 	private Integer attachDeviceFaultCount = 0;  // 外控制器故障数量
 	private String status = "<td style=\"color:#009900\">正常</td>";  // 控制器的状态,也即故障类型
 	private boolean flag = false; // 是否建立电子地图结点
+	private Integer deviceFalutFlag = 0;  // 控制器故障标记位.0：正常；1：发生故障
+	private Integer proberFalutFlag = 0;  // 探测器故障标记位.0：正常；1：发生故障
+	private Integer proberAlarmFlag = 0;  // 探测器报警标记位.0：正常；1：发生报警
+	private Integer attachDeviceFaultFlag;  // 外控器状态标记位.0：正常；1：发生故障
 	
 	private Set<User> deviceManagers; // 控制器管理员
 	private Set<Prober> probers;
@@ -200,6 +204,54 @@ public class Device {
 	 */
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	/**
+	 * @return the proberFalutFlag
+	 */
+	public Integer getProberFalutFlag() {
+		return proberFalutFlag;
+	}
+	/**
+	 * @param proberFalutFlag the proberFalutFlag to set
+	 */
+	public void setProberFalutFlag(Integer proberFalutFlag) {
+		this.proberFalutFlag = proberFalutFlag;
+	}
+	/**
+	 * @return the proberAlarmFlag
+	 */
+	public Integer getProberAlarmFlag() {
+		return proberAlarmFlag;
+	}
+	/**
+	 * @param proberAlarmFlag the proberAlarmFlag to set
+	 */
+	public void setProberAlarmFlag(Integer proberAlarmFlag) {
+		this.proberAlarmFlag = proberAlarmFlag;
+	}
+	/**
+	 * @return the attachDeviceStatusFlag
+	 */
+	public Integer getAttachDeviceFaultFlag() {
+		return attachDeviceFaultFlag;
+	}
+	/**
+	 * @param attachDeviceStatusFlag the attachDeviceStatusFlag to set
+	 */
+	public void setAttachDeviceFaultFlag(Integer attachDeviceFaultFlag) {
+		this.attachDeviceFaultFlag = attachDeviceFaultFlag;
+	}
+	/**
+	 * @return the deviceFalutFlag
+	 */
+	public Integer getDeviceFalutFlag() {
+		return deviceFalutFlag;
+	}
+	/**
+	 * @param deviceFalutFlag the deviceFalutFlag to set
+	 */
+	public void setDeviceFalutFlag(Integer deviceFalutFlag) {
+		this.deviceFalutFlag = deviceFalutFlag;
 	}
 		
 }

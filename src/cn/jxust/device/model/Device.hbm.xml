@@ -41,6 +41,22 @@
 			<column name="attach_device_fault_count" length="10" />
 		</property>
 		
+		<property name="deviceFalutFlag" type="java.lang.Integer">
+			<column name="device_falut_flag" length="10" />
+		</property>
+		
+		<property name="proberAlarmFlag" type="java.lang.Integer">
+			<column name="prober_alarm_flag" length="10" />
+		</property>
+		
+		<property name="proberAlarmFlag" type="java.lang.Integer">
+			<column name="prober_alarm_flag" length="10" />
+		</property>
+		
+		<property name="attachDeviceFaultFlag" type="java.lang.Integer">
+			<column name="attach_device_fault_flag" length="10" />
+		</property>
+		
 		<property name="flag" type="java.lang.Boolean" column="flag"></property>
 		
 		<!-- probers属性，本类与Prober的一对多 -->

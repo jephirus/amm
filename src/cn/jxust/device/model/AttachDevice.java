@@ -18,6 +18,8 @@ public class AttachDevice {
 	private String alarmTime = "<td style=\"color:#009900\"></td>";// 报警时音
 	private String installDate;   // 安装时间
 
+	private Integer faultFlag = 0;		// 故障标记位。0：正常；1：故障
+
 	/**
 	 * @return the attachDeviceId
 	 */
@@ -99,5 +101,17 @@ public class AttachDevice {
 	public void setInstallDate(String installDate) {
 		this.installDate = installDate;
 	}
-	
+	/**
+	 * @return the faultFlag
+	 */
+	public Integer getFaultFlag() {
+		return faultFlag;
+	}
+	/**
+	 * @param faultFlag the faultFlag to set
+	 */
+	public void setFaultFlag(Integer faultFlag) {
+		this.faultFlag = faultFlag;
+	}
+
 }

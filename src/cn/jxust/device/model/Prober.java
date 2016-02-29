@@ -13,7 +13,7 @@ public class Prober {
 	private Integer proberId;   // 探测器ID
 	private String proberNum;   // 探测器编号
 	private Device device;      // 探测器所对应的控制器
-	private String location; // 探测器地址
+	private String location; // 探测器地点
 	private String proberRange;       // 量程
 	private String lowThickness;// 低端浓度
 	private String highThickness; // 高端浓度
@@ -24,6 +24,9 @@ public class Prober {
 	private String currentStatus ="<td style=\"color:#009900\">正常</td>";  // 当前状态
 	private String alarmTime = "<td style=\"color:#009900\"></td>";       // 报警时间
 	private String currentThickness;  // 当前浓度
+	
+	private Integer faultFlag = 0;		// 故障标记位。0：正常；1：故障
+	private Integer alarmFlag = 0;		// 报警标记位。0：正常；1：故障
 	
 
 	public Integer getProberId() {
@@ -157,6 +160,30 @@ public class Prober {
 	 */
 	public void setCurrentThickness(String currentThickness) {
 		this.currentThickness = currentThickness;
+	}
+	/**
+	 * @return the faultFlag
+	 */
+	public Integer getFaultFlag() {
+		return faultFlag;
+	}
+	/**
+	 * @param faultFlag the faultFlag to set
+	 */
+	public void setFaultFlag(Integer faultFlag) {
+		this.faultFlag = faultFlag;
+	}
+	/**
+	 * @return the alarmFlag
+	 */
+	public Integer getAlarmFlag() {
+		return alarmFlag;
+	}
+	/**
+	 * @param alarmFlag the alarmFlag to set
+	 */
+	public void setAlarmFlag(Integer alarmFlag) {
+		this.alarmFlag = alarmFlag;
 	}
 	
 }

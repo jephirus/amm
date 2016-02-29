@@ -29,6 +29,10 @@
 			<column name="install_date" length="80" />
 		</property>
 		
+		<property name="faultFlag" type="java.lang.Integer">
+			<column name="fault_flag" length="4" />
+		</property>
+		
         <many-to-one name="device" column="device_id" 
             class="cn.jxust.device.model.Device">   <!-- column="id"外键名  -->  
         </many-to-one>

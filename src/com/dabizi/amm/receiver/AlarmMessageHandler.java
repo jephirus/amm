@@ -115,6 +115,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 			sb.append(timeLaber.substring(10, 12) + "秒");
 			timeLaber = sb.toString();
 		}
+		
 		if (sysMessage != null) {
 			sysMessage.setTimeLaber(timeLaber);
 			sysStateMessageService.save(sysMessage);
@@ -149,101 +150,12 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 	}
 
 	/**
-	 * 当发生故障或报警时，发送短信
-	 * @param message
-	 * @param device
-	 * @param pointInfo
-	 */
-	private void sendFAShortMessage(Object message, Device device, PointInfo pointInfo)
-	{
-
-		StringBuffer msgSb = new StringBuffer();
-		String[] flagAndStat = {"0", "0", "0"};  // 下标0为设备类型； 下标1为状态；下标2为设备类型为7时，“1”为报警“2”为故障.
-		String sessionName = "";
-		/* 判断是哪一个类 */
-		if (message instanceof SysStateMessage) {
-			// 拼凑短信内容，控制器触发,格式：所属单位+区域+控制器+时间+原因
-			SysStateMessage sysMessage = (SysStateMessage) message;
-			msgSb.append(device.getArea().getDepartment().getDepartmentName());
-			msgSb.append(device.getArea().getAreaName());
-			msgSb.append(device.getDeviceName() + "于");
-			msgSb.append(sysMessage.getTimeLaber() + "发生");
-			msgSb.append(sysMessage.getControllerStatus() + "【东震】");
-			flagAndStat[1] = sysMessage.getControllerStatus();
-			flagAndStat[2] = "2";  // 故障
-			errorDevices.put(device.getDeviceCode(), flagAndStat); // 添加，如果有就不会添加，set特性
-		} else if (message instanceof ExplorerMessage) {
-			ExplorerMessage explorerMessage = (ExplorerMessage) message;
-			int type = explorerMessage.getDeviceType();  // 判断是否是探测器或外控器地址。
-			// 拼凑短信内容，控制器触发,格式：所属单位+区域+控制器+时间+原因
-			msgSb.append(device.getArea().getDepartment().getDepartmentName());
-			msgSb.append(device.getArea().getAreaName());
-			msgSb.append(device.getDeviceName() + "于");
-			msgSb.append(explorerMessage.getTimeLaber() + "发生");
-			msgSb.append(explorerMessage.getDeviceStatus() + "【东震】");
-			if (type == 11) {
-				flagAndStat[0] = "2";  // 不带浓度探测器
-				flagAndStat[1] = explorerMessage.getDeviceStatus();
-				flagAndStat[2] = "2";  // 故障
-				errorDevices.put("11" + device.getDeviceCode() + explorerMessage.getDeviceAddress(), flagAndStat); // 添加，如果有就不会添加，set特性
-			}else{
-				flagAndStat[1] = explorerMessage.getDeviceStatus();
-				flagAndStat[2] = "2";  // 故障
-				errorDevices.put("86" + device.getDeviceCode() + explorerMessage.getDeviceAddress(), flagAndStat); // 添加，如果有就不会添加，set特性
-			}
-		} else if (message instanceof ConcentrationMessage) {
-			ConcentrationMessage conMessage = (ConcentrationMessage) message;
-			// 拼凑短信内容，格式：所属单位+区域+控制器+时间+原因
-			msgSb.append(device.getArea().getDepartment().getDepartmentName());
-			msgSb.append(device.getArea().getAreaName());
-			msgSb.append(device.getDeviceName() + "的");
-			msgSb.append(conMessage.getDeviceAddress() + "探测器于"); // 探测器地址
-			msgSb.append(conMessage.getTimeLaber() + "发生");
-			msgSb.append(conMessage.getStatus() + "【东震】");
-			flagAndStat[0] = "7";  // 带浓度探测器
-			if(conMessage.getStatus().equals("连线故障") || conMessage.getStatus().equals("探测器故障")){
-				flagAndStat[2] = "2";  // 故障
-				flagAndStat[1] = conMessage.getStatus();
-			}
-			else
-			{
-				flagAndStat[2] = "1";  // 报警
-				flagAndStat[1] = conMessage.getStatus();
-			}
-			errorDevices.put("11" + device.getDeviceCode() + conMessage.getDeviceAddress(), flagAndStat); // 添加，如果有就不会添加，set特性
-		}
-		// 发短信
-		String phoneNumbers = "";
-		Set<User> us = device.getDeviceManagers();
-		for (User user : us) {// 给多个发短信
-			if (null != user.getPhoneNumber()) {
-				phoneNumbers += user.getPhoneNumber() + ",";
-			}
-		}
-		if (null != pointInfo)
-		{
-			pointInfo.setStatus(PointInfo.STATUS_ERROR);
-			if (flagAndStat[2].equals("1")) {
-				pointInfo.setStatusColor("red");
-			}else if(flagAndStat[2].equals("2"))
-			{
-				pointInfo.setStatusColor("yellow");
-			}
-			sessionName = pointInfo.getLatitude() + "|" + pointInfo.getLongitude();
-			pointInfoService.update(pointInfo);
-		}
-		phoneNumbers = phoneNumbers.substring(0, phoneNumbers.length() - 1);
-		CallUtils.sendMsg(msgSb.toString(), phoneNumbers);
-		systemWebSocketHandler.sendMessageToIndex(new TextMessage(msgSb.toString() +"*#*" + sessionName +"*#*" + flagAndStat[2]+"*#*" + device.getArea().getAreaId()));
-	}
-
-	/**
 	 * 当故障、报警恢复时，发送短信
 	 * @param message
 	 * @param device
 	 * @param pointInfo
 	 */
-	private void sendRecoverShortMessage(Object message, Device device, PointInfo pointInfo)
+	private void sendRecoverShortMessage(Object message, Device device)
 	{
 
 		StringBuffer msgSb = new StringBuffer();
@@ -272,13 +184,6 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 			msgSb.append(conMessage.getTimeLaber() + "恢复正常。【东震】");
 		}
 		
-		if (null != pointInfo)	// 当报警或故障恢复时，颜色设为绿色。
-		{
-			pointInfo.setStatus(PointInfo.STATUS_OK);
-			pointInfo.setStatusColor("green");
-			pointInfoService.update(pointInfo);
-		}
-
 		// 发短信
 		String phoneNumbers = "";
 		Set<User> us = device.getDeviceManagers();
@@ -305,30 +210,68 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 		if (null != device)    // 如果存在该控制器
 		{
 			pointInfo = device.getPointInfo(); // 获取地图结点
+			
 			if (status.equals(""))   // 控制器正常
 			{
-				if (errorDevices.containsKey(address))
+				if (device.getDeviceFalutFlag()==1)   // 上次发生过故障
 				{
 					device.setStatus("<td style=\"color:#009900\">正常</td>");
+					device.setDeviceFalutFlag(0);
 					deviceService.update(device);
 					errorDevices.remove(address); // 正常了，从Map中移除错误地址
-				}
-				if (null != pointInfo) {
-					pointInfo.setStatus(PointInfo.STATUS_OK); // 更新点的信息
-					pointInfo.setStatusColor("green");
-					pointInfoService.update(pointInfo);
+					sendRecoverShortMessage(sysMessage, device);
+
 				}
 			} 
 			else    // 控制器状态不正常
 			{
-				if (!errorDevices.containsKey(address) || !(errorDevices.get(address)[1].equals(status)))   // 该设备第一次发送故障信息，发送一次短信
+				if (device.getDeviceFalutFlag() == 0)   // 该设备第一次发送故障信息，发送一次短信
 				{
-					device.setStatus(this.statusValueAndColor(status));
+					device.setStatus(this.statusValueAndColor(status));  // 设置界面状态颜色
+					device.setDeviceFalutFlag(1);   // 设置标记位
 					deviceService.update(device);
-					sendFAShortMessage(sysMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
+					sendDeviceMessage(sysMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
 				}
 			}
 		}
+	}
+
+	/**
+	 * 用于处理控制故障消息
+	 * @param sysMessage 控制器消息对象
+	 * @param device 控制器
+	 * @param pointInfo 地图点信息
+	 */
+	private void sendDeviceMessage(SysStateMessage sysMessage, Device device, PointInfo pointInfo) {
+		
+		StringBuffer msgSb = new StringBuffer();
+		String sessionName = "";
+		
+		msgSb.append(device.getArea().getDepartment().getDepartmentName());
+		msgSb.append(device.getArea().getAreaName());
+		msgSb.append(device.getDeviceName() + "于");
+		msgSb.append(sysMessage.getTimeLaber() + "发生");
+		msgSb.append(sysMessage.getControllerStatus() + "【东震】");
+		
+		String phoneNumbers = "";
+		Set<User> us = device.getDeviceManagers();
+		for (User user : us) {// 给多个发短信
+			if (null != user.getPhoneNumber()) {
+				phoneNumbers += user.getPhoneNumber() + ",";
+			}
+		}
+		
+		if (null != pointInfo)
+		{
+			pointInfo.setStatus(PointInfo.STATUS_ERROR);
+			pointInfo.setStatusColor("yellow");
+			sessionName = pointInfo.getLatitude() + "|" + pointInfo.getLongitude();
+			pointInfoService.update(pointInfo);
+		}
+		
+		phoneNumbers = phoneNumbers.substring(0, phoneNumbers.length() - 1);
+		CallUtils.sendMsg(msgSb.toString(), phoneNumbers);
+		systemWebSocketHandler.sendMessageToIndex(new TextMessage(msgSb.toString() +"*#*" + sessionName +"*#*" + "2" + "*#*" + device.getArea().getAreaId()));
 	}
 
 	/**
@@ -341,148 +284,126 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 	{
 		Device device = deviceService.findByDeviceCode(explorerMessage.getInfoID() + explorerMessage.getSysAddress());
 		int type = explorerMessage.getDeviceType();  // 判断是否是探测器或外控器地址。
-		String address; // 探测器或外控器地址：控制器地址+探或外地址
-		if (type == 11) {
-			address = "11" + device.getDeviceCode() + explorerMessage.getDeviceAddress();
-		}
-		else
-		{
-			address = "86" + device.getDeviceCode() + explorerMessage.getDeviceAddress();
-		}
 		String status = explorerMessage.getDeviceStatus();   // 控测器或外控器的当前状态
+			
 		if (null != device) // 如果存在该设备
 		{
 			pointInfo = device.getPointInfo();
-			if (status.equals("") && errorDevices.containsKey(address))   // 状态正常同时此前没有故障或报警
+		
+		if (status.equals(""))   // 状态正常
+		{
+			if (type == 11)    // 探测器故障
 			{
-				if (type == 11 && errorDevices.get(address)[0].equals("2"))    // 探测器故障
+				for (Prober p: device.getProbers())
 				{
-					device.setProberFaultCount(device.getProberFaultCount() -1);// 探测器故障解除，恢复为0.
-					for (Prober p: device.getProbers())
+					if (p.getProberNum().equals(explorerMessage.getDeviceAddress()) && (p.getFaultFlag() == 1))
 					{
-						if (p.getLocation().equals(explorerMessage.getDeviceAddress()))
-						{
-							p.setCurrentStatus(this.recoveryStatusValue(errorDevices.get(address)[1]));
-							p.setAlarmTime(timeColor(status, timeLaber));
-							proberService.update(p);
-						}
+						String tempT = p.getCurrentStatus().split(">")[1].split("<")[0];  // 取状态
+						p.setCurrentStatus(this.recoveryStatusValue(tempT));
+						p.setAlarmTime(timeColor(status, timeLaber));
+						p.setFaultFlag(0);
+						proberService.update(p);
+						device.setProberFaultCount(device.getProberFaultCount() -1);// 控制器故障解除，-1.
+						deviceService.update(device);
+						sendRecoverShortMessage(explorerMessage, device);
+						break;
 					}
 				}
-				else if (type == 11 && errorDevices.get(address)[0].equals("7"))    // 探测器带浓度报警
+			}
+			else if (type == 86)  // 外控器故障
+			{
+				for (AttachDevice ad : device.getAttachDevices())
 				{
-					device.setProberAlarmCount(device.getProberAlarmCount() -1);// 探测器故障解除，恢复为0.
-					for (Prober p : device.getProbers())
+					if (ad.getAttachDeviceNum().equals(explorerMessage.getDeviceAddress()) && (ad.getFaultFlag() == 1))
 					{
-						if (p.getLocation().equals(explorerMessage.getDeviceAddress()))
+						String tempT = ad.getCurrentStatus().split(">")[1].split("<")[0];  // 取状态
+						ad.setCurrentStatus(this.recoveryStatusValue(tempT));
+						ad.setAlarmTime(timeColor(status, timeLaber));
+						ad.setFaultFlag(0);
+						attachDeviceService.update(ad);
+						device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() -1);// 外控器故障解除，恢复为0.
+						deviceService.update(device);
+						sendRecoverShortMessage(explorerMessage, device);
+						break;
+					}
+				}
+			}
+		}
+		else // 不正常
+		{
+				if (type == 11)    // 探测器
+				{
+
+					for (Prober p: device.getProbers())
+					{
+						if (p.getProberNum().equals(explorerMessage.getDeviceAddress()) && (p.getFaultFlag() == 0))
 						{
-							p.setCurrentStatus(this.recoveryStatusValue(errorDevices.get(address)[1]));
+							p.setCurrentStatus(this.statusValueAndColor(status));
 							p.setAlarmTime(timeColor(status, timeLaber));
+							p.setCurrentThickness("0");   // 探测器有故障，当前浓度设为0.
+							p.setFaultFlag(1);
 							proberService.update(p);
+							device.setProberFaultCount(device.getProberFaultCount() +1);// 控制器故障，+1.
+							device.setProberFalutFlag(1);	// 控制器故障:1.
+							deviceService.update(device);
+							sendProberOrAttachDevcieMessage(explorerMessage, device, pointInfo);
+							break;
 						}
 					}
 				}
 				else if (type == 86)  // 外控器
 				{
-					device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() -1);// 外控器故障解除，恢复为0.
+					device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() + 1);// 外控器故障次数递增1
+					
+					
 					for (AttachDevice ad : device.getAttachDevices())
 					{
-						if (ad.getLocation().equals(explorerMessage.getDeviceAddress()))
+						if (ad.getAttachDeviceNum().equals(explorerMessage.getDeviceAddress()) && (ad.getFaultFlag() == 0))
 						{
-							ad.setCurrentStatus(this.recoveryStatusValue(errorDevices.get(address)[1]));
+							ad.setCurrentStatus(this.statusValueAndColor(status));
 							ad.setAlarmTime(timeColor(status, timeLaber));
+							ad.setFaultFlag(1);
 							attachDeviceService.update(ad);
-						}
-					}
-				}
-				deviceService.update(device);
-				if (null != pointInfo) {
-					pointInfo.setStatus(PointInfo.STATUS_OK);
-					pointInfo.setStatusColor("green");
-					pointInfoService.update(pointInfo);
-				}
-				errorDevices.remove(address);
-			}
-			else // 不正常
-			{
-				if (!errorDevices.containsKey(address)) // 该设备第一次发送故障信息，发送一次短信
-				{
-					if (type == 11)    // 探测器
-					{
-						device.setProberFaultCount(device.getProberFaultCount() + 1);// 探测器故障发生次数递增1
-						for (Prober p : device.getProbers()) {
-							if (p.getLocation().equals(explorerMessage.getDeviceAddress())) {
-								p.setCurrentStatus(this.statusValueAndColor(status));
-								p.setCurrentThickness("0");   // 探测器有故障，当前浓度设为0.
-								p.setAlarmTime(timeColor(status, timeLaber));
-								proberService.update(p);
-							}
-						}
-					}
-					else if (type == 86)  // 外控器
-					{
-						device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() + 1);// 外控器故障次数递增1
-						for (AttachDevice ad : device.getAttachDevices())
-						{
-							if (ad.getLocation().equals(explorerMessage.getDeviceAddress()))
-							{
-								ad.setCurrentStatus(this.statusValueAndColor(status));
-								ad.setAlarmTime(timeColor(status, timeLaber));
-								attachDeviceService.update(ad);
-							}
-						}
-					}
-					deviceService.update(device);
-					sendFAShortMessage(explorerMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信 （一次故障只发一次短信）
-				}
-				else  // 非第一次报警，
-				{
-					if (type == 11) // 探测器或带浓度的探测器
-					{
-						if (errorDevices.get(address)[0].equals("2") && !errorDevices.get(address)[1].equals(status))  // 探测器
-						{
-							for (Prober p : device.getProbers())
-							{
-								if (p.getLocation().equals(explorerMessage.getDeviceAddress()))
-								{
-									p.setCurrentStatus(statusValueAndColor(status));
-									proberService.update(p);
-								}
-							}
-							sendFAShortMessage(explorerMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信 （一次故障只发一次短信）
-						}
-						else if(errorDevices.get(address)[0].equals("7")) // 上次是带浓度的探测器报警，现在探测器发生故障，探测报警取消-1，故障+1
-						{
-							device.setProberAlarmCount(device.getProberAlarmCount() - 1);  // 探测器发生故障，报警取消-1.
-							device.setProberFaultCount(device.getProberFaultCount() + 1); // 探测器故障发生次数+1
-							for (Prober p : device.getProbers())
-							{
-								if (p.getLocation().equals(explorerMessage.getDeviceAddress()))
-								{
-									p.setCurrentStatus(statusValueAndColor(status));
-									p.setCurrentThickness("0");   // 探测器有故障，当前浓度设为0.
-									proberService.update(p);
-								}
-							}
+							device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() + 1);// 外控器故障解除，恢复为0.
+							device.setAttachDeviceFaultFlag(1); // 控制器故障:1.
 							deviceService.update(device);
-							sendFAShortMessage(explorerMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信 （一次故障只发一次短信）
+							sendProberOrAttachDevcieMessage(explorerMessage, device, pointInfo);
+							break;
 						}
-					} 
-					else if (type == 86 && !errorDevices.get(address)[1].equals(status)) // 外控器
-					{
-						for (AttachDevice ad : device.getAttachDevices()) {
-							if (ad.getLocation().equals(explorerMessage.getDeviceAddress()))
-							{
-								ad.setCurrentStatus(statusValueAndColor(status));
-								attachDeviceService.update(ad);
-							}
-						}
-						sendFAShortMessage(explorerMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信 （一次故障只发一次短信）
 					}
+					
 				}
 			}
 		}
-		
 	}
+
+	private void sendProberOrAttachDevcieMessage(ExplorerMessage explorerMessage, Device device, PointInfo pointInfo) {
+		StringBuffer msgSb = new StringBuffer();
+		String sessionName = "";
+			// 拼凑短信内容，控制器触发,格式：所属单位+区域+控制器+时间+原因
+			msgSb.append(device.getArea().getDepartment().getDepartmentName());
+			msgSb.append(device.getArea().getAreaName());
+			msgSb.append(device.getDeviceName() + "于");
+			msgSb.append(explorerMessage.getTimeLaber() + "发生");
+			msgSb.append(explorerMessage.getDeviceStatus() + "【东震】");
+			String phoneNumbers = "";
+			Set<User> us = device.getDeviceManagers();
+			for (User user : us) {// 给多个发短信
+				if (null != user.getPhoneNumber()) {
+					phoneNumbers += user.getPhoneNumber() + ",";
+				}
+			}
+			if (null != pointInfo)
+			{
+				pointInfo.setStatus(PointInfo.STATUS_ERROR);
+				pointInfo.setStatusColor("yellow");
+				sessionName = pointInfo.getLatitude() + "|" + pointInfo.getLongitude();
+				pointInfoService.update(pointInfo);
+			}
+			phoneNumbers = phoneNumbers.substring(0, phoneNumbers.length() - 1);
+			CallUtils.sendMsg(msgSb.toString(), phoneNumbers);
+			systemWebSocketHandler.sendMessageToIndex(new TextMessage(msgSb.toString() +"*#*" + sessionName +"*#*" + "2"+"*#*" + device.getArea().getAreaId()));
+}
 
 	/**
 	 * 处理带浓度的探测器
@@ -502,143 +423,114 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 
 			if (status.equals(""))   // 状态正常
 			{
-				if (errorDevices.containsKey(address)) // 之前有报警，现在恢复正常
+				for (Prober p: device.getProbers())
 				{
-					if (null != pointInfo)
+					if (p.getProberNum().equals(conMessage.getDeviceAddress()) && (p.getAlarmFlag() == 1))
 					{
-						pointInfo.setStatus(PointInfo.STATUS_OK);
-						pointInfo.setStatusColor("green");
-						pointInfoService.update(pointInfo);
-					}
-					if (errorDevices.get(address)[0].equals("7"))
-					{
-						if (errorDevices.get(address)[2].equals("1"))  // 上次状态报警
-						{
-							device.setProberAlarmCount(device.getProberAlarmCount() - 1);// 探测器故障解除，恢复为0.
-							for (Prober p : device.getProbers())
-							{
-								if (p.getLocation().equals(conMessage.getDeviceAddress()))
-								{
-									p.setCurrentStatus(recoveryStatusValue(errorDevices.get(address)[1]));
-									p.setCurrentThickness(conMessage.getSimulation());
-									p.setAlarmTime(timeColor(status, timeLaber));
-									proberService.update(p);
-								}
-							}
-						}
-						else if(errorDevices.get(address)[2].equals("2"))   // 上次状态故障
-						{
-							device.setProberFaultCount(device.getProberFaultCount() - 1);// 探测器故障解除，恢复为0.
-							for (Prober p : device.getProbers())
-							{
-								if (p.getLocation().equals(conMessage.getDeviceAddress()))
-								{
-									p.setCurrentStatus(recoveryStatusValue(errorDevices.get(address)[1]));
-									p.setCurrentThickness(conMessage.getSimulation());
-									p.setAlarmTime(timeColor(status, timeLaber));
-									proberService.update(p);
-								}
-							}
-							
-						}
+						p.setCurrentStatus(this.recoveryStatusValue(errorDevices.get(address)[1]));
+						p.setAlarmTime(timeColor(status, timeLaber));
+						p.setFaultFlag(0);
+						proberService.update(p);
+						device.setProberFaultCount(device.getProberAlarmCount() -1);// 控制器报警解除，-1.
 						deviceService.update(device);
-						errorDevices.remove(address);
-					}
-					this.sendRecoverShortMessage(conMessage, device, pointInfo);
-				}
-				else   // 状态一直正常，但结果也要显示在监控列表中
-				{
-					for (Prober p : device.getProbers())
-					{
-						if (p.getLocation().equals(conMessage.getDeviceAddress()))
-						{
-							p.setCurrentThickness(conMessage.getSimulation());
-							p.setAlarmTime("<td style=\"color:green\">" + timeLaber + "</td>");
-							proberService.update(p);
-						}
+						sendRecoverShortMessage(conMessage, device);
+						break;
 					}
 				}
 				handleProberForEarlyWarning(conMessage, device, timeLaber);    // 处理预警事件。
-			}  // 状态正常结束
+			}	
 			// 状态不正常开始，则再分为故障或报警处理
 			else if (status.equals("连线故障") || status.equals("探测器故障"))  // 故障处理
 			{
-				this.handleLineOrProberError(address, device, conMessage, pointInfo, timeLaber, status);
+				this.handleLineOrProberError(conMessage, pointInfo, timeLaber, status);
 			}
 			else  // 带浓度的不正常状态则报警，判断是否需要发短信
 			{
-				if (!errorDevices.containsKey(address)) // 如果不包含，就发短信
+				for (Prober p: device.getProbers())
 				{
-					for (Prober p : device.getProbers())
+					if (p.getProberNum().equals(conMessage.getDeviceAddress()))
 					{
-						if (p.getLocation().equals(conMessage.getDeviceAddress()))
+						p.setCurrentStatus(this.statusValueAndColor(status));
+						p.setAlarmTime(timeColor(status, timeLaber));
+						p.setCurrentThickness("0");   // 探测器有故障，当前浓度设为0.
+						
+						if (status.equals("低限报警")&& p.getAlarmFlag() == 2)
 						{
-							p.setCurrentStatus(this.statusValueAndColor(status));
-							p.setCurrentThickness(conMessage.getSimulation());
-							p.setAlarmTime(timeColor(status, timeLaber));
-							proberService.update(p);
+							p.setAlarmFlag(1);
+							sendProberConMessage(conMessage, device, pointInfo);
 						}
-					}
-					device.setProberAlarmCount(device.getProberAlarmCount() + 1);
-					sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-					deviceService.update(device);
-				}
-				else // 包含该设备地址，但状态不同也发短信而不计数
-				{
-					if (errorDevices.get(address)[0].equals("2"))  // 上次是故障，本次是浓度报警
-					{
-						device.setProberAlarmCount(device.getProberAlarmCount() + 1); // 探测器发生故障，报警取消-1.
-						device.setProberFaultCount(device.getProberFaultCount() - 1); // 探测器故障发生次数+1
-						for (Prober p : device.getProbers())
+						else if(status.equals("高限报警") && p.getAlarmFlag() == 1)
 						{
-							if (p.getLocation().equals(conMessage.getDeviceAddress()))
-							{
-								p.setCurrentStatus(statusValueAndColor(status));
-								p.setCurrentThickness(conMessage.getSimulation());
-								p.setAlarmTime(timeColor(status, timeLaber));
-								proberService.update(p);
-							}
+							p.setAlarmFlag(2);
+							sendProberConMessage(conMessage, device, pointInfo);
 						}
-						deviceService.update(device);
-						this.sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-					}
-					else if(errorDevices.get(address)[0].equals("7"))  // 上次设备是7，本次也是7，分两种情况
-					{   // 上次浓度报警:1，本次浓度报警
-						if (errorDevices.get(address)[2].equals("1") && !errorDevices.get(address)[1].equals(status)) // 判断报警及浓度
+						else if (p.getAlarmFlag()==0)
 						{
-							for (Prober p : device.getProbers()) {
-								if (p.getLocation().equals(conMessage.getDeviceAddress()))
-								{
-									p.setCurrentStatus(statusValueAndColor(status));
-									p.setCurrentThickness(conMessage.getSimulation());
-									p.setAlarmTime(timeColor(status, timeLaber));
-									proberService.update(p);
-								}
-							}
-							this.sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-						}
-						else if(errorDevices.get(address)[2].equals("2"))  // 上次是故障:2，本次是浓度报警
-						{
-							device.setProberAlarmCount(device.getProberAlarmCount() + 1);  // 探测器发生故障，报警取消-1.
-							device.setProberFaultCount(device.getProberFaultCount() - 1); // 探测器故障发生次数+1
-							for (Prober p : device.getProbers()) {
-								if (p.getLocation().equals(conMessage.getDeviceAddress())) 
-								{
-									p.setCurrentStatus(statusValueAndColor(status));
-									p.setCurrentThickness(conMessage.getSimulation());
-									p.setAlarmTime(timeColor(status, timeLaber));
-									proberService.update(p);
-								}
-							}
+							device.setProberAlarmCount(device.getProberAlarmCount() +1);// 控制器故障，+1.
+							device.setProberAlarmFlag(1);	// 控制器故障:1.
 							deviceService.update(device);
-							sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
+							
+							if (status.equals("低限报警"))
+							{
+								p.setAlarmFlag(1);
+							}
+							else if(status.equals("低限报警"))
+							{
+								p.setAlarmFlag(2);
+							}
+							sendProberConMessage(conMessage, device, pointInfo);
 						}
+						proberService.update(p);
+						break;
 					}
 				}
 			}
 		}
 	}
 	
+	/**
+	 * 用于发送带浓度探测器的消息。
+	 * @param conMessage
+	 * @param device
+	 * @param pointInfo
+	 */
+	private void sendProberConMessage(ConcentrationMessage conMessage, Device device, PointInfo pointInfo)
+	{
+		StringBuffer msgSb = new StringBuffer();
+		String sessionName = "";
+		// 拼凑短信内容，格式：所属单位+区域+控制器+时间+原因
+		msgSb.append(device.getArea().getDepartment().getDepartmentName());
+		msgSb.append(device.getArea().getAreaName());
+		msgSb.append(device.getDeviceName() + "的");
+		msgSb.append(conMessage.getDeviceAddress() + "探测器于"); // 探测器地址
+		msgSb.append(conMessage.getTimeLaber() + "发生");
+		msgSb.append(conMessage.getStatus() + "【东震】");
+
+//		if(conMessage.getStatus().equals("连线故障") || conMessage.getStatus().equals("探测器故障")){
+//			flagAndStat[2] = "2";  // 故障
+//			flagAndStat[1] = conMessage.getStatus();
+//		}
+		
+		// 发短信
+		String phoneNumbers = "";
+		Set<User> us = device.getDeviceManagers();
+		for (User user : us) {// 给多个发短信
+			if (null != user.getPhoneNumber()) {
+				phoneNumbers += user.getPhoneNumber() + ",";
+			}
+		}
+		if (null != pointInfo)
+		{
+			pointInfo.setStatus(PointInfo.STATUS_ERROR);
+			pointInfo.setStatusColor("red");
+			sessionName = pointInfo.getLatitude() + "|" + pointInfo.getLongitude();
+			pointInfoService.update(pointInfo);
+		}
+		phoneNumbers = phoneNumbers.substring(0, phoneNumbers.length() - 1);
+		CallUtils.sendMsg(msgSb.toString(), phoneNumbers);
+		systemWebSocketHandler.sendMessageToIndex(new TextMessage(msgSb.toString() +"*#*" + sessionName +"*#*" + "1"+"*#*" + device.getArea().getAreaId()));
+	}
+
 	// 一个客户端关闭时
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
@@ -774,71 +666,29 @@ public class AlarmMessageHandler extends IoHandlerAdapter
 	 * @param timeLaber
 	 * @param status
 	 */
-	private void handleLineOrProberError(String address, Device device, ConcentrationMessage conMessage, PointInfo pointInfo, String timeLaber, String status)
+	private void handleLineOrProberError(ConcentrationMessage conMessage, PointInfo pointInfo, String timeLaber, String status)
 	{
-		if (!errorDevices.containsKey(address)) // 如果不包含，就发短信
+		Device device = deviceService.findByDeviceCode(conMessage.getInfoID() + conMessage.getSysAddress());
+			
+		if (null != device) // 如果存在该设备
 		{
-			for (Prober p : device.getProbers())
-			{
-				if (p.getLocation().equals(conMessage.getDeviceAddress()))
-				{
-					p.setCurrentStatus(this.statusValueAndColor(status));
-					p.setCurrentThickness("0");
-					p.setAlarmTime(timeColor(status, timeLaber));
-				}
-			}
-			device.setProberFaultCount(device.getProberFaultCount() + 1);
-			sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-			deviceService.update(device);
-		}
-		else // 包含该设备地址，但状态不同也发短信而不计数
-		{
-			if (errorDevices.get(address)[0].equals("2") && !errorDevices.get(address)[1].equals(status))  //上次是故障， 本次也是故障，同时故障不相同时
-			{
-				for (Prober p : device.getProbers())
-				{
-					if (p.getLocation().equals(conMessage.getDeviceAddress())) 
+			pointInfo = device.getPointInfo();
+					for (Prober p: device.getProbers())
 					{
-						p.setCurrentStatus(statusValueAndColor(status));
-						p.setCurrentThickness("0");
-						p.setAlarmTime(timeColor(status, timeLaber));
-						proberService.update(p);
-					}
-				}
-				sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-			}
-			else if(errorDevices.get(address)[0].equals("7"))  // 上次是7，本次也是7，分两种情况 
-			{
-				if (errorDevices.get(address)[2].equals("1")) {  // 上次是报警，这次故障
-					device.setProberAlarmCount(device.getProberAlarmCount() - 1); // 探测器发生故障，报警取消-1.
-					device.setProberFaultCount(device.getProberFaultCount() + 1); // 探测器故障发生次数+1
-					for (Prober p : device.getProbers()) {
-						if (p.getLocation().equals(
-								conMessage.getDeviceAddress())) {
-							p.setCurrentStatus(statusValueAndColor(status));
-							p.setCurrentThickness("0");
+						if (p.getProberNum().equals(conMessage.getDeviceAddress()) && (p.getFaultFlag() == 0))
+						{
+							p.setCurrentStatus(this.statusValueAndColor(status));
 							p.setAlarmTime(timeColor(status, timeLaber));
+							p.setCurrentThickness("0");   // 探测器有故障，当前浓度设为0.
+							p.setFaultFlag(1);
+							proberService.update(p);
+							device.setProberFaultCount(device.getProberFaultCount() +1);// 控制器故障，+1.
+							device.setProberFalutFlag(1);	// 控制器故障:1.
+							deviceService.update(device);
+							sendProberConMessage(conMessage, device, pointInfo);
+							break;
 						}
 					}
-					deviceService.update(device);
-					sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-				}
-				else if(errorDevices.get(address)[2].equals("2"))  // 上次是故障，本次也故障
-				{
-					if (!errorDevices.get(address)[1].equals(status))
-					{
-						for (Prober p : device.getProbers()) {
-							if (p.getLocation().equals(conMessage.getDeviceAddress())) {
-								p.setCurrentStatus(statusValueAndColor(status));
-								p.setCurrentThickness("0");
-								p.setAlarmTime(timeColor(status, timeLaber));
-								proberService.update(p);
-							}
-						}
-						sendFAShortMessage(conMessage, device, pointInfo); // 发送过一次短信了，不再继续发短信（一次故障只发一次短信）
-					}
-				}
-			}
 		}
 	}
 
