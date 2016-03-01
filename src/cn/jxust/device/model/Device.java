@@ -27,6 +27,7 @@ public class Device {
 	private Integer proberFalutFlag = 0;  // 探测器故障标记位.0：正常；1：发生故障
 	private Integer proberAlarmFlag = 0;  // 探测器报警标记位.0：正常；1：发生报警
 	private Integer attachDeviceFaultFlag;  // 外控器状态标记位.0：正常；1：发生故障
+	private Integer netFaultFlag = 0;  // 控制器网络故障标记.0：正常；1：发生故障
 	
 	private Set<User> deviceManagers; // 控制器管理员
 	private Set<Prober> probers;
@@ -252,6 +253,18 @@ public class Device {
 	 */
 	public void setDeviceFalutFlag(Integer deviceFalutFlag) {
 		this.deviceFalutFlag = deviceFalutFlag;
+	}
+	/**
+	 * @return the netFaultFlag
+	 */
+	public Integer getNetFaultFlag() {
+		return netFaultFlag;
+	}
+	/**
+	 * @param netFaultFlag the netFaultFlag to set
+	 */
+	public void setNetFaultFlag(Integer netFaultFlag) {
+		this.netFaultFlag = netFaultFlag;
 	}
 		
 }

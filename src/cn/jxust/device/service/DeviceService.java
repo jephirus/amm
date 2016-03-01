@@ -8,6 +8,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dabizi.amm.receiver.DeviceTimer;
+
 import cn.jxust.base.model.Area;
 import cn.jxust.base.model.Department;
 import cn.jxust.base.service.DepartmentService;
@@ -70,6 +72,8 @@ public class DeviceService extends BaseService<Device>
 		AttachDevice ad;
 		if (device.getDeviceId() == null) {  // 新增对象
 			getDeviceDao().save(device);   // 先保存控制器
+			
+			DeviceTimer.netFaultTimer(600000, device);   // 当新建控制器，就加载探测网络故障定时器
 			for (int i = 0; i < proberCount; i++) {
 				p = new Prober();
 				p.setProberNum(String.format("%08d", i + 1));
@@ -214,6 +218,10 @@ public class DeviceService extends BaseService<Device>
 		}
 		
 		return sb.toString();
+	}
+
+	public Device getDeviceByCode(String deviceCode) {
+		return getDeviceDao().findByDeviceCode(deviceCode);
 	}
 	
 }
