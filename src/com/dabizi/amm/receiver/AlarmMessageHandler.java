@@ -436,7 +436,8 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 			if (status.equals("")) // 状态正常
 			{
 				for (Prober p : device.getProbers()) {
-					if (p.getProberNum().equals(conMessage.getDeviceAddress()) && (p.getAlarmFlag() == 1)) {
+					if (p.getProberNum().equals(conMessage.getDeviceAddress()) && (p.getAlarmFlag() == 1))	// 当前正常，上次报警
+					{
 						String tempT = p.getCurrentStatus().split(">")[1].split("<")[0]; // 取上次探测器状态
 
 						p.setCurrentStatus(recoveryStatusValue(tempT));
@@ -448,6 +449,10 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 						sendRecoverShortMessage(conMessage, device);
 						break;
 					}
+					else
+					{
+						sendConcentrationRealTime(p, conMessage);	// 实时更新探测器浓度
+					}
 				}
 				handleProberForEarlyWarning(conMessage, device, timeLaber); // 处理预警事件。
 			}
@@ -456,7 +461,8 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 			{
 				this.handleLineOrProberError(conMessage, pointInfo, timeLaber,
 						status);
-			} else // 带浓度的不正常状态则报警，判断是否需要发短信
+			}
+			else // 带浓度的不正常状态则报警，判断是否需要发短信
 			{
 				for (Prober p : device.getProbers()) {
 					if (p.getProberNum().equals(conMessage.getDeviceAddress())) {
@@ -464,16 +470,19 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 						p.setAlarmTime(timeColor(status, timeLaber));
 						p.setCurrentThickness("0"); // 探测器有故障，当前浓度设为0.
 
-						if (status.equals("低限报警") && p.getAlarmFlag() == 2) {
+						if (status.equals("低限报警") && p.getAlarmFlag() == 2)
+						{
 							p.setAlarmFlag(1);
 							sendProberConMessage(conMessage, device, pointInfo);
-						} else if (status.equals("高限报警")
-								&& p.getAlarmFlag() == 1) {
+						}
+						else if (status.equals("高限报警") && p.getAlarmFlag() == 1)
+						{
 							p.setAlarmFlag(2);
 							sendProberConMessage(conMessage, device, pointInfo);
-						} else if (p.getAlarmFlag() == 0) {
-							device.setProberAlarmCount(device
-									.getProberAlarmCount() + 1);// 控制器故障，+1.
+						}
+						else if (p.getAlarmFlag() == 0)
+						{
+							device.setProberAlarmCount(device.getProberAlarmCount() + 1);// 控制器故障，+1.
 							device.setProberAlarmFlag(1); // 控制器故障:1.
 							deviceService.update(device);
 
@@ -490,6 +499,23 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 实时更新探测器浓度
+	 * @param p
+	 * @param conMessage
+	 */
+	private void sendConcentrationRealTime(Prober p, ConcentrationMessage conMessage)
+	{
+		String tableId = p.getDevice().getDeviceId().toString() + p.getProberId().toString() + "concentration"; // 前台表格ID
+		systemWebSocketHandler.sendMessageToIndex(new TextMessage(
+				"" + "*#*"		// 序号：0
+				+ conMessage.getSimulation() + "*#*"	// 当前浓度 	序号：1
+				+ "4" + "*#*"				// 序号：2，其值为3，表示探测器实时浓度
+				+ tableId + "*#*"		// 序号：3
+				));
+
 	}
 
 	/**

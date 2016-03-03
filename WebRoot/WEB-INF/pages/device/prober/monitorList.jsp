@@ -50,7 +50,7 @@
 						${entity.currentStatus}
 						<!-- status字段中已带颜色和td -->
 						${entity.alarmTime}
-					<td>
+					<td id="${entity.device.deviceId}${entity.proberId}concentration">
 						${entity.currentThickness}
 					</td>
 					<td>
