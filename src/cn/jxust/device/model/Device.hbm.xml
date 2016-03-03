@@ -49,12 +49,12 @@
 			<column name="prober_alarm_flag" length="10" />
 		</property>
 		
-		<property name="proberAlarmFlag" type="java.lang.Integer">
-			<column name="prober_alarm_flag" length="10" />
-		</property>
-		
 		<property name="attachDeviceFaultFlag" type="java.lang.Integer">
 			<column name="attach_device_fault_flag" length="10" />
+		</property>
+		
+		<property name="netFaultFlag" type="java.lang.Integer">
+			<column name="net_fault_flag" length="10" />
 		</property>
 		
 		<property name="flag" type="java.lang.Boolean" column="flag"></property>

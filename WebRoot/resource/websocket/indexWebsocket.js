@@ -7,23 +7,47 @@
         };  
         ws.onmessage = function (event) {
         	var message = event.data.split('*#*');
-            log('Received: ' + message[0]);
+            log('Received: ' + message[0]);		// 消息显示
             
-            var storage = window.localStorage;
-            if(storage.getItem("areaId") === null || "undefined" != typeof storage.getItem("areaId")){
-            	storage.setItem("areaId",message[3]);
-            }
+//            var storage = window.localStorage;
+//            if(storage.getItem("areaId") === null || "undefined" != typeof storage.getItem("areaId")){
+//            	storage.setItem("areaId",message[3]);
+//            }
+//			
             // 刷新控制器页面
-            if(message[3]){
-        		if(message[3] === storage.getItem("areaId"))
+			//navTab.openTab("deviceList","/amm/device/monitorList/"+message[3]+".php",{title:"警告"});
+            if(message[3])
+            {
+        		if(message[2] === '1')			// 控制器故障，控制器只有故障
         		{
-        			navTab.openTab("deviceList","/amm/device/monitorList/"+message[3]+".php",{title:"警告"});
+        			$("#"+message[4]+ "status").css('color','#FFFF00');		// 黄色
+        			$("#"+message[4]+ "status").html(message[3]); 
         		}
+        		else if(message[2] === '2')		// 探测器或外控器故障
+        		{
+        			if (message[6] === '11')		// 探测器故障
+        			{
+            			$("#"+message[4]+ "pfc").css('color','#FFFF00');		// 黄色
+            			$("#"+message[4]+ "pfc").html(message[5]); 
+					}
+        			else if(message[6] === '86')	// 外控器故障
+        			{
+            			$("#"+message[4]+ "adfc").css('color','#FFFF00');		// 黄色
+            			$("#"+message[4]+ "adfc").html(message[5]); 
+        			}
+        		}
+        		else if(message[2] === '3')		// 探测器报警，探测器可有报警
+        		{
+					$("#" + message[4] + "pac").css('color', '#FF3300'); // 红色
+					$("#" + message[4] + "pac").html(message[5]);
+        		}
+        		
+        		// 地图渲染
         		var col;
-        		if(message[2] == '1')
+        		if(message[2] == '3')		// 报警：红色
         			col = 'red';
-        		else if(message[2] == '2')
-        			col = 'yellow';
+        		else
+        			col = 'yellow';			// 故障：黄色
         		var ll = message[1].split('|');
     			var point = new BMap.Point(ll[1], ll[0]); // 点击位置的坐标
     			var marker = new BMap.Marker(point, {
@@ -40,12 +64,13 @@
 
         	}
             
-        	if (message[2] == "1")  // 报警
+            // 报警或故障声音处理
+        	if (message[2] == '3')  // 报警
         	{
 				$('<audio id="alarmAudio" loop="loop"><source src="http://127.0.0.1/amm/resource/websocket/alarm.mp3" type="audio/wav"></audio>').appendTo('body');
 				$('#alarmAudio')[0].play();
 			}
-        	else if(message[2] == "2")  // 故障
+        	else if(message[2] == '1' || message[2] == '2')  // 故障
 			{
 				$('<audio id="faultAudio" loop="loop"><source src="http://127.0.0.1/amm/resource/websocket/fault.mp3" type="audio/wav"></audio>').appendTo('body');
 				$('#faultAudio')[0].play();

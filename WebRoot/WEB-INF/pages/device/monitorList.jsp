@@ -76,18 +76,18 @@ function refreshNavTab()
 						${entity.deviceName}
 					</td>
 					<c:if test="${entity.proberAlarmCount !='0'}">
-						<td style="color:red;">
+						<td id="${entity.deviceCode}pac" style="color:red;">
 					</c:if>					
 					<c:if test="${entity.proberAlarmCount =='0'}">
-						<td style="color:black;">
+						<td id="${entity.deviceCode}pac" style="color:black;">
 					</c:if>					
 						${entity.proberAlarmCount}
 					</td>
 					<c:if test="${entity.proberFaultCount !='0'}">
-						<td style="color:#FFCC00;">
+						<td id="${entity.deviceCode}pfc" style="color:#FFCC00;">
 					</c:if>
 					<c:if test="${entity.proberFaultCount =='0'}">
-						<td style="color:black;">
+						<td id="${entity.deviceCode}pfc" style="color:black;">
 					</c:if>					
 						${entity.proberFaultCount}
 					</td>
@@ -95,10 +95,10 @@ function refreshNavTab()
 						${entity.proberCount}
 					</td>
 					<c:if test="${entity.attachDeviceFaultCount !='0'}">
-						<td style="color:#FFCC00;">
+						<td id="${entity.deviceId}adfc" style="color:#FFCC00;">
 					</c:if>					
 					<c:if test="${entity.attachDeviceFaultCount =='0'}">
-						<td style="color:black;">
+						<td id="${entity.deviceId}adfc" style="color:black;">
 					</c:if>
 						${entity.attachDeviceFaultCount}
 					</td>

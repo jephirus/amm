@@ -225,6 +225,8 @@ public class DeviceAction  extends BaseDwzAction
 		else
 		{
 			String[] usersId = userIds.split(",");
+			String status = "<td id=\"" + device.getDeviceCode() + "status\" style=\"color:#009900\">正常</td>";  
+			
 			Set<User> deviceManagers = new HashSet<User>();
 			for(String id: usersId){   // 添加该控制器的管理员
 				User u = userService.find(Integer.parseInt(id));
@@ -232,6 +234,8 @@ public class DeviceAction  extends BaseDwzAction
 			}
 			device.setDeviceManagers(deviceManagers);
 			device.setArea(areaService.find(areaId));
+			
+			device.setStatus(status);	// 初始状态。id:deviceCode+status
 			deviceService.save(device.getProberCount(),device.getAttachDeviceCount(), device);  // 用于添加控制器中的探测器和外控制器
 		}
 		
