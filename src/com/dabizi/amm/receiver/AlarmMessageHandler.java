@@ -449,7 +449,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 						sendRecoverShortMessage(conMessage, device);
 						break;
 					}
-					else
+					else if(p.getProberNum().equals(conMessage.getDeviceAddress()))
 					{
 						sendConcentrationRealTime(p, conMessage);	// 实时更新探测器浓度
 					}
@@ -470,17 +470,17 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 						p.setAlarmTime(timeColor(status, timeLaber));
 						p.setCurrentThickness("0"); // 探测器有故障，当前浓度设为0.
 
-						if (status.equals("低限报警") && p.getAlarmFlag() == 2)
+						if (status.equals("低限报警") && p.getAlarmFlag() == 2)	// 当前低限报警，上次高限报警。
 						{
 							p.setAlarmFlag(1);
 							sendProberConMessage(conMessage, device, pointInfo);
 						}
-						else if (status.equals("高限报警") && p.getAlarmFlag() == 1)
+						else if (status.equals("高限报警") && p.getAlarmFlag() == 1)	// 当前高限报警，上次低限报警。
 						{
 							p.setAlarmFlag(2);
 							sendProberConMessage(conMessage, device, pointInfo);
 						}
-						else if (p.getAlarmFlag() == 0)
+						else if (p.getAlarmFlag() == 0)	// 上次无报警.
 						{
 							device.setProberAlarmCount(device.getProberAlarmCount() + 1);// 控制器故障，+1.
 							device.setProberAlarmFlag(1); // 控制器故障:1.

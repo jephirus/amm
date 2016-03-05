@@ -26,7 +26,7 @@ public class Prober {
 	private String currentThickness;  // 当前浓度
 	
 	private Integer faultFlag = 0;		// 故障标记位。0：正常；1：故障
-	private Integer alarmFlag = 0;		// 报警标记位。0：正常；1：故障
+	private Integer alarmFlag = 0;		// 报警标记位。0：正常；1：低限报警；2：高限报警。
 	
 
 	public Integer getProberId() {

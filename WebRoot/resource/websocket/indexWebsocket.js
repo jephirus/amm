@@ -46,9 +46,9 @@
        		var ll;		// 从服务器端传来的经纬度
        		if(message[2] == '3')		// 报警：红色
       			col = 'red';
-       		else
+       		else if(message[2] == '2')
        			col = 'yellow';			// 故障：黄色
-       		if (message[1] != "") {
+       		if (message[0] != "" && message[0] != '\n已建立连接!') {
 				ll = message[1].split('|');
 				var point = new BMap.Point(ll[1], ll[0]); // 点击位置的坐标
 				var marker = new BMap.Marker(point, {
