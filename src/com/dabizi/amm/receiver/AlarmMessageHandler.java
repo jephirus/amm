@@ -293,12 +293,10 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 
 			if (status.equals("")) // 状态正常
 			{
-				if (type == 11) // 探测器故障
+				if (type == 11) // 探测器故障恢复
 				{
 					for (Prober p : device.getProbers()) {
-						if (p.getProberNum().equals(
-								explorerMessage.getDeviceAddress())
-								&& (p.getFaultFlag() == 1)) {
+						if (p.getProberNum().equals(explorerMessage.getDeviceAddress()) && (p.getFaultFlag() == 1)) {
 							String tempT = p.getCurrentStatus().split(">")[1].split("<")[0]; // 取状态
 							p.setCurrentStatus(this.recoveryStatusValue(tempT));
 							p.setAlarmTime(timeColor(status, timeLaber));
@@ -310,12 +308,10 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 							break;
 						}
 					}
-				} else if (type == 86) // 外控器故障
+				} else if (type == 86) // 外控器故障恢复
 				{
 					for (AttachDevice ad : device.getAttachDevices()) {
-						if (ad.getAttachDeviceNum().equals(
-								explorerMessage.getDeviceAddress())
-								&& (ad.getFaultFlag() == 1)) {
+						if (ad.getAttachDeviceNum().equals(explorerMessage.getDeviceAddress()) && (ad.getFaultFlag() == 1)) {
 							String tempT = ad.getCurrentStatus().split(">")[1].split("<")[0]; // 取状态
 							ad.setCurrentStatus(this.recoveryStatusValue(tempT));
 							ad.setAlarmTime(timeColor(status, timeLaber));
@@ -338,7 +334,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 							p.setCurrentStatus(this.statusValueAndColor(status));
 							p.setAlarmTime(timeColor(status, timeLaber));
 							p.setCurrentThickness("0"); // 探测器有故障，当前浓度设为0.
-							p.setFaultFlag(1);
+							p.setFaultFlag(1);		// 探测器故障
 							proberService.update(p);
 							device.setProberFaultCount(device.getProberFaultCount() + 1);// 控制器故障，+1.
 							device.setProberFalutFlag(1); // 控制器故障:1.
@@ -352,12 +348,10 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 					device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() + 1);// 外控器故障次数递增1
 
 					for (AttachDevice ad : device.getAttachDevices()) {
-						if (ad.getAttachDeviceNum().equals(
-								explorerMessage.getDeviceAddress())
-								&& (ad.getFaultFlag() == 0)) {
+						if (ad.getAttachDeviceNum().equals(explorerMessage.getDeviceAddress()) && (ad.getFaultFlag() == 0)) {
 							ad.setCurrentStatus(this.statusValueAndColor(status));
 							ad.setAlarmTime(timeColor(status, timeLaber));
-							ad.setFaultFlag(1);
+							ad.setFaultFlag(1);					// 外控器故障
 							attachDeviceService.update(ad);
 							device.setAttachDeviceFaultCount(device.getAttachDeviceFaultCount() + 1);// 外控器故障解除，恢复为0.
 							device.setAttachDeviceFaultFlag(1); // 控制器故障:1.
@@ -424,11 +418,9 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 * @param pointInfo
 	 * @param timeLaber
 	 */
-	private void handleProberWithConcentration(ConcentrationMessage conMessage,
-			PointInfo pointInfo, String timeLaber) {
+	private void handleProberWithConcentration(ConcentrationMessage conMessage, PointInfo pointInfo, String timeLaber) {
 
-		Device device = deviceService.findByDeviceCode(conMessage.getInfoID()
-				+ conMessage.getSysAddress());
+		Device device = deviceService.findByDeviceCode(conMessage.getInfoID() + conMessage.getSysAddress());
 		if (null != device) // 如果存在该设备
 		{
 			pointInfo = device.getPointInfo();
@@ -437,21 +429,23 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 			if (status.equals("")) // 状态正常
 			{
 				for (Prober p : device.getProbers()) {
-					if (p.getProberNum().equals(conMessage.getDeviceAddress()) && (p.getAlarmFlag() == 1))	// 当前正常，上次报警
+					if (p.getProberNum().equals(conMessage.getDeviceAddress()) && (p.getAlarmFlag() == 1 || p.getAlarmFlag() == 2))	// 当前正常，上次报警
 					{
 						String tempT = p.getCurrentStatus().split(">")[1].split("<")[0]; // 取上次探测器状态
 
 						p.setCurrentStatus(recoveryStatusValue(tempT));
 						p.setAlarmTime(timeColor(status, timeLaber));
-						p.setFaultFlag(0);
+						p.setAlarmFlag(0);
 						proberService.update(p);
-						device.setProberFaultCount(device.getProberAlarmCount() - 1);// 控制器报警解除，-1.
+						device.setProberAlarmCount(device.getProberAlarmCount() - 1);// 控制器报警解除，-1.
 						deviceService.update(device);
 						sendRecoverShortMessage(conMessage, device);
 						break;
 					}
 					else if(p.getProberNum().equals(conMessage.getDeviceAddress()))
 					{
+						p.setCurrentThickness(conMessage.getSimulation());
+						proberService.update(p);
 						sendConcentrationRealTime(p, conMessage);	// 实时更新探测器浓度
 					}
 				}
@@ -466,10 +460,11 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 			else // 带浓度的不正常状态则报警，判断是否需要发短信
 			{
 				for (Prober p : device.getProbers()) {
-					if (p.getProberNum().equals(conMessage.getDeviceAddress())) {
+					if (p.getProberNum().equals(conMessage.getDeviceAddress()))
+					{
 						p.setCurrentStatus(this.statusValueAndColor(status));
 						p.setAlarmTime(timeColor(status, timeLaber));
-						p.setCurrentThickness("0"); // 探测器有故障，当前浓度设为0.
+						p.setCurrentThickness(conMessage.getSimulation()); // 探测器浓度.
 
 						if (status.equals("低限报警") && p.getAlarmFlag() == 2)	// 当前低限报警，上次高限报警。
 						{
@@ -483,8 +478,8 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 						}
 						else if (p.getAlarmFlag() == 0)	// 上次无报警.
 						{
-							device.setProberAlarmCount(device.getProberAlarmCount() + 1);// 控制器故障，+1.
-							device.setProberAlarmFlag(1); // 控制器故障:1.
+							device.setProberAlarmCount(device.getProberAlarmCount() + 1);// 控制器报警，+1.
+							device.setProberAlarmFlag(1); // 控制器报警:1.
 							deviceService.update(device);
 
 							if (status.equals("低限报警")) {

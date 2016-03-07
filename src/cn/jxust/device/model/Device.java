@@ -33,7 +33,7 @@ public class Device {
 	private Set<Prober> probers;
 	private Set<AttachDevice> attachDevices;
 	private PointInfo pointInfo;  // 电子地图中结点对应的控制器，一对一关系。
-	private Area area;      // 区域和控制器一对多关系
+	private Area area;      	  // 区域和控制器一对多关系
 	
 	/**
 	 * @return the deviceId
