@@ -197,7 +197,8 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 * @param sysMessage 控制器消息
 	 * @param pointInfo 地图结点
 	 */
-	private void haddleDevice(SysStateMessage sysMessage, PointInfo pointInfo) {
+	private void haddleDevice(SysStateMessage sysMessage, PointInfo pointInfo)
+	{
 
 		String address = sysMessage.getInfoID() + sysMessage.getSysAddress(); // 此外为控制器地址
 		Device device = deviceService.findByDeviceCode(address); // 获取控制器
