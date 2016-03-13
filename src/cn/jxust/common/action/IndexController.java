@@ -23,6 +23,7 @@ import cn.jxust.base.model.User;
 import cn.jxust.base.service.DepartmentService;
 import cn.jxust.base.service.UserService;
 import cn.jxust.device.service.DeviceService;
+import cn.jxust.log.service.DeviceLogService;
 import cn.jxust.utils.ConfigUtils;
 
 /**
@@ -44,6 +45,9 @@ public class IndexController extends BaseDwzAction
 	@Resource
 	private DeviceService deviceService;
 	
+	@Resource
+	private DeviceLogService deviceLogService;  // 控制器消息数据
+
 	public String getWebName()
 	{
 		return ConfigUtils.getInstance().getValues().get("web");
@@ -138,8 +142,12 @@ public class IndexController extends BaseDwzAction
 		
 		String mt = deviceService.createMonitorTree(department);
 		String dt = deviceService.createDeviceTree(department);
+		String ut = userService.createUserTree(department);
+		String dlt = deviceLogService.createDeviceLogTree(department);		// 日志记录查询
 		model.addAttribute("monitorTree", mt);
 		model.addAttribute("deviceTree", dt);
+		model.addAttribute("userTree", ut);
+		model.addAttribute("deviceLogTree", dlt);
 		model.addAttribute("webName", getWebName());
 		model.addAttribute("overview", ConfigUtils.getInstance().getValues().get("overview"));
 		

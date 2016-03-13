@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.jxust.base.dao.UserDao;
+import cn.jxust.base.model.Area;
 import cn.jxust.base.model.Department;
 import cn.jxust.base.model.User;
 import cn.jxust.orm.PageData;
@@ -18,6 +19,9 @@ import cn.jxust.orm.hibernate.BaseService;
 @Transactional
 public class UserService extends BaseService<User>
 {
+	@Resource
+	DepartmentService departmentService;
+	
 	@Override
 	@Resource(name="userDao")
 	public void setBaseDao(BaseDao<User> baseDao)
@@ -113,6 +117,46 @@ public class UserService extends BaseService<User>
 				sb.append(dep.getDepartmentName());
 				sb.append("</a></li>");
 			}
+		
+		return sb.toString();
+	}
+
+	/**
+	 * 以单位的方式在首页显示单位管理员和单位访客
+	 * @param department
+	 * @return
+	 */
+	public String createUserTree(Department department) {
+		StringBuffer sb = new StringBuffer();
+		if(null != department)  // 单位用户登录
+		{
+			sb.append("<li><a>");
+			sb.append(department.getDepartmentName().toString());
+			sb.append("</a><ul>");
+			for (Area area: department.getAreas()) {
+				sb.append("<li><a href=\"base/user/list/3.php");
+				sb.append(" target=\"navTab\" rel=\"userList\">");
+				sb.append(area.getAreaName());
+				sb.append("</a></li>");
+			}
+			sb.append("</ul></li>");
+		}
+		else  //超级管理员登录
+		{
+			for(Department dep: departmentService.getAll())
+			{
+				sb.append("<li><a>");
+				sb.append(dep.getDepartmentName().toString());
+				sb.append("</a><ul>");
+				sb.append("<li><a href=\"base/user/depUserList/");
+				sb.append(dep.getDepartmentId().toString());
+				sb.append(".php\" target=\"navTab\" rel=\"userList\">单位管理员维护");
+				sb.append("</a></li>");
+				sb.append("<li><a href=\"base/user/list/2.php\" target=\"navTab\" rel=\"userList\">单位访客维护");
+				sb.append("</a></li>");
+				sb.append("</ul></li>");
+			}
+		}
 		
 		return sb.toString();
 	}

@@ -9,14 +9,14 @@
 			<table class="searchContent">
 				<tr>
 					<td style="width:230px;">
-						<select class="combox" name="device" ref="prober_select" refUrl="${ctx}/log/device/probers/{value}.php">
-							<option value="all">选择控制器</option>
+						<select class="combox" name="deviceId" ref="prober_select" refUrl="${ctx}/log/device/probers/{value}.php">
+							<option value="0">选择控制器</option>
 							<c:forEach var="entity" items="${devices}">
-								<option value="${entity.deviceId}">${entity.deviceName}</option>
+								<option value="${entity.deviceCode}">${entity.deviceName}</option>
 							</c:forEach>
 						</select>
-						<select class="combox" name="prober" id="prober_select">
-							<option value="all">探测器</option>
+						<select class="combox" name="proberNum" id="prober_select">
+							<option value="">探测器</option>
 						</select>
 					</td>
 					<td style="width:230px;">
@@ -52,13 +52,13 @@
 					区域
 				</th>
 				<th width="100" align="center">
-					所属单位
-				</th>
-				<th width="100" align="center">
 					故障类型
 				</th>
 				<th width="100" align="center">
 					故障时间
+				</th>
+				<th width="100" align="center">
+					操作
 				</th>
 			</tr>
 		</thead>
@@ -78,13 +78,14 @@
 						${entity.areaName}
 					</td>
 					<td>
-						${entity.departmentName}
-					</td>
-					<td>
 						${entity.controllerStatus}
 					</td>
 					<td>
 						${entity.timeLaber}
+					</td>
+					<td>
+						<a href="${ctx}/log/prober/list/${entity.deviceName}.php" target="navTab" rel="replyList">探测器记录查询</a>
+						<a href="${ctx}/log/attachDevice/list/${entity.deviceName}.php" target="navTab" rel="replyList">外控器记录查询</a>
 					</td>
 				</tr>
 			</c:forEach>

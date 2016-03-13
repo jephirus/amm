@@ -34,7 +34,7 @@ public class DeviceDao extends BaseDao<Device>
 	 */
 	public List<Device> findAll(Department department)
 	{
-		return findList("from Device d where d.area.department=? and flag=false", department);
+		return findList("from Device d where d.area.department=? and flag!=false", department);
 	}
 
 	/**

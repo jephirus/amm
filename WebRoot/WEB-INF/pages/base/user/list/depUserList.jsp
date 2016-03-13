@@ -3,20 +3,6 @@
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags'%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<div class="pageHeader" style="border:1px #B8D0D6 solid">
-	<form id="pagerForm" onsubmit="return divSearch(this, 'jbsxBox');" action="demo/pagination/list1.html" method="post">
-	<input type="hidden" name="pageNum" value="1" />
-	<input type="hidden" name="numPerPage" value="${model.numPerPage}" />
-	<input type="hidden" name="orderField" value="${param.orderField}" />
-	<input type="hidden" name="orderDirection" value="${param.orderDirection}" />
-	<div class="searchBar">
-		<table class="searchContent">
-			<tr>
-			</tr>
-		</table>
-	</div>
-	</form>
-</div>
 
 <div class="pageContent" style="border-left:1px #B8D0D6 solid;border-right:1px #B8D0D6 solid">
 <div class="panelBar">

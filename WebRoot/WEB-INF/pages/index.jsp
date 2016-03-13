@@ -198,25 +198,17 @@
 					<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
 						<div class="accordionHeader">
 							<h2>
-								<span>Folder</span>基础信息管理
+								<span>Folder</span>系统管理
 							</h2>
 						</div>
 						<div class="accordionContent">
 							<ul class="tree treeFolder">
 								<li><a href="${ctx}/base/config/list.php" target="navTab" rel="configList">系统设置</a>
 								</li>
-								<li><a>用户管理</a>
-									<ul>
-										<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
-											<li><a href="${ctx}/base/user/list/3.php" target="navTab" rel="userList">单位管理员维护</a></li>
-										</sec:authorize>
-										<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN">
-											<li><a href="${ctx}/base/user/list/1.php" target="navTab" rel="userList">超级访客维护</a></li>
-											<li><a href="${ctx}/base/user/list/2.php" target="navTab" rel="userList">单位访客维护</a></li>
-											<li><a href="${ctx}/base/department/list.php" target="navTab" rel="departmentList">单位/机构用户维护</a></li>
-										</sec:authorize>
-									</ul>
-								</li>
+								<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN">
+									<li><a href="${ctx}/base/user/list/1.php" target="navTab" rel="userList">超级访客维护</a></li>
+									<li><a href="${ctx}/base/department/list.php" target="navTab" rel="departmentList">单位/机构用户维护</a></li>
+								</sec:authorize>
 								<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
 								<li><a>区域管理</a>
 									<ul>
@@ -232,6 +224,30 @@
  --%>							</ul>
 						</div>
 					</sec:authorize>
+					<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
+						<div class="accordionHeader">
+							<h2>
+								<span>Folder</span>用户管理
+							</h2>
+						</div>
+						<div class="accordionContent">
+							<ul class="tree treeFolder">
+								<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
+									${userTree}
+								</sec:authorize>
+<%-- 								<li><a>用户管理</a>
+									<ul>
+										<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN,LABEL_SYS_DEPT_ADMIN">
+											<li><a href="${ctx}/base/user/list/3.php" target="navTab" rel="userList">单位管理员维护</a></li>
+										</sec:authorize>
+										<sec:authorize ifAnyGranted="LABEL_SYS_ADMIN">
+											<li><a href="${ctx}/base/user/list/2.php" target="navTab" rel="userList">单位访客维护</a></li>
+										</sec:authorize>
+									</ul>
+								</li>
+ --%>						</ul>
+						</div>
+					</sec:authorize>
 						<div class="accordionHeader">
 							<h2>
 								<span>Folder</span>设备监控管理
@@ -239,11 +255,8 @@
 						</div>
 						<div class="accordionContent">
 							<ul class="tree treeFolder collapse">
-									${monitorTree}
-<%--								<li><a href="sdfdsfds.jsp" target="navTab" rel="deviceList">设备监控管理</a>
-									<li><a href="${ctx}/alarmParameter/list.php" target="navTab" rel="alarmParameterList">报警参数设置</a></li>
-								</li>
---%>						</ul>
+								${monitorTree}
+							</ul>
 						</div>
 						
 						<div class="accordionHeader">
@@ -256,7 +269,6 @@
 								<li><a>设备信息维</a>
 									<ul>
 										${deviceTree}
-										<%-- <li><a href="${ctx}/device/deviceList.php" target="navTab" rel="deviceList">控制器列表</a></li> --%>
 									 </ul>
 								</li>
 							</ul>
@@ -270,10 +282,11 @@
 
 						<div class="accordionContent">
 							<ul class="tree">
-								<li><a href="${ctx}/log/device/list.php" target="navTab" rel="replyList">控制器记录查询</a></li>
+								${deviceLogTree}
+<%-- 							<li><a href="${ctx}/log/device/list.php" target="navTab" rel="deviceLogList">控制器记录查询</a></li>
 								<li><a href="${ctx}/log/prober/list.php" target="navTab" rel="replyList">探测器记录查询</a></li>
 								<li><a href="${ctx}/log/attachDevice/list.php" target="navTab" rel="replyList">外控器记录查询</a></li>
-							</ul>
+ --%>						</ul>
 						</div>
 				</div>
 			</div>
