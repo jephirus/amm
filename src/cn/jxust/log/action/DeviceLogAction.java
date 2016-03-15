@@ -54,10 +54,11 @@ public class DeviceLogAction extends BaseDwzAction {
 		Department department = departmentService.find(departmentId);
 
 		pageData = deviceLogService.getAllDeviceLog(pageData, department);
-		devices = deviceService.findAll(department);
+		devices = deviceService.getAll(department);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("devices", devices);
-		mv.addObject(pageData); // /----????
+		mv.addObject(pageData);
+		mv.addObject("departmentId", departmentId);
 		mv.setViewName("/log/device/list");
 		return mv;
 	}
@@ -73,21 +74,25 @@ public class DeviceLogAction extends BaseDwzAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/getDeviceLogByQuery.html")
-	public String getDeviceLogByQuery(@RequestParam(defaultValue = "1") int pageNum, Integer deviceCode,
-			String proberNum, String beginDate, String endDate, Model model)
+	public String getDeviceLogByQuery(@RequestParam(defaultValue = "1") int pageNum, String deviceCode,
+			String proberNum, String beginDate, String endDate, Integer departmentId, Model model)
 	{
-		Department department = getCurrentDepartment();
-		if (deviceCode == 0) {	// 查当前单位所有控制器信息。
+		Department department = departmentService.find(departmentId);;
+		if (deviceCode.equals("0")) {	// 查当前单位所有控制器信息。
+			List<Device> devices = deviceService.getAll(department);
 			PageData<DeviceLog> pageData = new PageData<DeviceLog>(pageNum);
 			PageData<DeviceLog> pd = deviceLogService.getDeviceLogByQuery(pageData, deviceCode, proberNum, beginDate,endDate, pageNum, department);
 			model.addAttribute("pageData", pd);
+			model.addAttribute("devices", devices);
 			return "/log/device/list";
 		}
 		else if(!proberNum.equals(""))	// 查所稳定控制器的探测器信息或外控器信息。
 		{
+			List<Device> devices = deviceService.getAll(department);
 			PageData<ProberLog> pageData = new PageData<ProberLog>(pageNum);
 			PageData<ProberLog> pd = deviceLogService.getProberLogByQuery(pageData, deviceCode, proberNum, beginDate, endDate, pageNum, department);
 			model.addAttribute("pageData", pd);
+			model.addAttribute("devices", devices);
 			return "/log/prober/list";
 		}
 		else
@@ -100,9 +105,9 @@ public class DeviceLogAction extends BaseDwzAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/probers/{id}.php")
-	public @ResponseBody String probersForCascade(@PathVariable("id") Integer deviceId)
+	public @ResponseBody String probersForCascade(@PathVariable("id") String deviceCode)
 	{
-		Set<Prober> probers = deviceService.find(deviceId).getProbers();
+		Set<Prober> probers = deviceService.findByDeviceCode(deviceCode).getProbers();
 		StringBuffer jsonProbers = new StringBuffer();
 		jsonProbers.append("[");
 		probers.size();

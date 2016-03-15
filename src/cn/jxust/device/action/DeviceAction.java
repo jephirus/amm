@@ -206,7 +206,7 @@ public class DeviceAction  extends BaseDwzAction
 	public @ResponseBody Map<String, String> save(Device device, String userIds, Integer areaId)
 	{
 		Device serialDevice;
-		if(device.getDeviceId() != null)
+		if(device.getDeviceId() != null)	// 更新控制器
 		{
 			serialDevice = deviceService.find(device.getDeviceId());
 			String[] usersId = userIds.split(",");
@@ -222,7 +222,7 @@ public class DeviceAction  extends BaseDwzAction
 			serialDevice.setDeviceName(device.getDeviceName());
 			deviceService.save(device.getProberCount(),device.getAttachDeviceCount(), serialDevice);  // 用于添加控制器中的探测器和外控制器
 		}
-		else
+		else	// 新增控制器
 		{
 			String[] usersId = userIds.split(",");
 			String status = "<td id=\"" + device.getDeviceCode() + "status\" style=\"color:#009900\">正常</td>";  

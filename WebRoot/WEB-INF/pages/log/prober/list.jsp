@@ -3,6 +3,38 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags'%>
 
+<div class="pageHeader">
+	<form onsubmit="return navTabSearch(this);" action="${ctx}/log/device/getDeviceLogByQuery.html" method="post">
+		<div class="searchBar">
+			<table class="searchContent">
+				<tr>
+					<td style="width:230px;">
+						<select class="combox" name="deviceCode" ref="prober_select" refUrl="${ctx}/log/device/probers/{value}.php">
+							<option value="0">选择控制器</option>
+							<c:forEach var="entity" items="${devices}">
+								<option value="${entity.deviceCode}">${entity.deviceName}</option>
+							</c:forEach>
+						</select>
+						<select class="combox" name="proberNum" id="prober_select">
+							<option value="">探测器</option>
+						</select>
+					</td>
+					<td style="width:230px;">
+						<p>
+						<label style="width:50px;">时间：</label>
+						<input type="text" readonly="readonly" size="8" class="date" name="beginDate" value="${param['beginDate']}">
+							<span class="limit">-</span>
+						<input type="text" readonly="readonly" size="8" class="date" name="endDate" value="${param['endDate']}">
+						</p>
+					</td>
+					<td>
+						<button type="submit">检索</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">

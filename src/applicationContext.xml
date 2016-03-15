@@ -112,7 +112,6 @@
 	<!-- 日志过滤器 -->
 	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter" />
 
-
 	<!-- 过滤器链 -->
 	<bean id="filterChainBuilder"
 		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
@@ -124,7 +123,7 @@
 		</property>
 	</bean>
 
-	<!-- 设置 I/O 接受器，并指定接收到请求后交给 myHandler 进行处理 -->
+	<!-- 设置 I/O 接受器，并指定接收到请求后交给Handler 进行处理 -->
 	<bean id="customEditorConfigurer"
 		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
@@ -134,7 +133,6 @@
 			</map>
 		</property>
 	</bean>
-
 
 	<!-- 定义数据处理Bean -->
 	<bean id="dbzHandler" class="com.dabizi.amm.receiver.AlarmMessageHandler">
@@ -175,22 +173,29 @@
 	    <property name="asyncSendTimeout" value="5000"/>
 	</bean>
 	
-	<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Quartz定时器<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
-	<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-		<property name="jobClass" value="com.dabizi.amm.receiver.QueryJob"></property>
-		<property name="durability" value="true" />
+	<!-- 网络故障定时器 -->
+	<bean id="deviceTimer" class="com.dabizi.amm.receiver.DeviceTimer"></bean>
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="deviceTimer" />
+		<property name="targetMethod" value="doIt" />
+		<property name="concurrent" value="false" />
 	</bean>
-	
-	<bean id="cronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="jobDetail"></property>
-        <property name="cronExpression" value="* * * * * ?"></property>
-    </bean>
+	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="jobDetail" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 30 seconds -->
+		<property name="repeatInterval" value="600000" />
+	</bean>
 
-    <bean id="trigger" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
-            <list>
-                <ref bean="cronTriggerBean"/>
-            </list>
-        </property>
-    </bean>
-</beans>
+	<!-- 总调度用于启动Spring定时器 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger" />
+			</list>
+		</property>
+	</bean>
+	 
+ </beans>

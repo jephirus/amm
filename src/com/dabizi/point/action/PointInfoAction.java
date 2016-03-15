@@ -113,9 +113,9 @@ public class PointInfoAction extends BaseDwzAction {
 		List<Device> devices;
 		
 		if (null != department) {
-			devices = deviceService.findAll(department);
+			devices = deviceService.getAll(department);
 		}else{
-			devices = deviceService.findAll();
+			devices = deviceService.getAll();
 		}
 		// 先过滤对set集合的拆解
 		JsonConfig config = new JsonConfig();

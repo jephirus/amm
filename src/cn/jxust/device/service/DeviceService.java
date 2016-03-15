@@ -20,6 +20,7 @@ import cn.jxust.device.model.Prober;
 import cn.jxust.orm.PageData;
 import cn.jxust.orm.hibernate.BaseDao;
 import cn.jxust.orm.hibernate.BaseService;
+import cn.jxust.utils.SpringContextUtils;
 
 @Service
 @Transactional
@@ -51,7 +52,7 @@ public class DeviceService extends BaseService<Device>
 		return getDeviceDao().findAll(pageData, area);
 	}
 	
-	public List<Device> findAll()
+	public List<Device> getAll()
 	{
 		return getDeviceDao().findList("from Device");
 	}
@@ -61,7 +62,7 @@ public class DeviceService extends BaseService<Device>
 	 * @param department
 	 * @return
 	 */
-	public List<Device> findAll(Department department)
+	public List<Device> getAll(Department department)
 	{
 		return getDeviceDao().findAll(department);
 	}
@@ -73,7 +74,6 @@ public class DeviceService extends BaseService<Device>
 		if (device.getDeviceId() == null) {  // 新增对象
 			getDeviceDao().save(device);   // 先保存控制器
 			
-			DeviceTimer.netFaultTimer(600000, device);   // 当新建控制器，就加载探测网络故障定时器
 			for (int i = 0; i < proberCount; i++) {
 				p = new Prober();
 				p.setProberNum(String.format("%08d", i + 1));

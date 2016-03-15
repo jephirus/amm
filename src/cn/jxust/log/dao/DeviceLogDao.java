@@ -70,7 +70,7 @@ public class DeviceLogDao extends BaseDao<DeviceLog> {
 
 	@SuppressWarnings("unchecked")
 	public PageData<DeviceLog> getDeviceLogByQuery(
-			PageData<DeviceLog> pageData, Integer deviceCode, String proberNum,
+			PageData<DeviceLog> pageData, String deviceCode, String proberNum,
 			String beginDate, String endDate, int pageNum, Department department) {
 		StringBuilder sb = new StringBuilder();
 		Assert.notNull(pageData, "pageData不能为空");
@@ -111,19 +111,19 @@ public class DeviceLogDao extends BaseDao<DeviceLog> {
 
 	@SuppressWarnings("unchecked")
 	public PageData<ProberLog> getProberLogByQuery(
-			PageData<ProberLog> pageData, Integer deviceId, String proberNum,
+			PageData<ProberLog> pageData, String deviceId, String proberNum,
 			String beginDate, String endDate, int pageNum, Department department) {
 		StringBuilder sb = new StringBuilder();
 		Assert.notNull(pageData, "pageData不能为空");
 		String hql;
 		if (department != null) {
-			hql = "select new cn.jxust.log.model.ProberLog(d.deviceName, d.area.areaName,d.area.department.departmentName, em.deviceStatus, em.timeLaber) from ExplorerMessage as em, Device as d where ssm.infoID ="
+			hql = "select new cn.jxust.log.model.ProberLog(d.deviceName, d.area.areaName, d.area.department.departmentName, em.deviceStatus, em.timeLaber, '1', 1) from ExplorerMessage as em, Device as d where em.infoID ="
 					+ deviceId
 					+ " and d.area.department.departmentName='"
 					+ department.getDepartmentName()
 					+ "' order by em.timeLaber";
 		} else {
-			hql = "select new cn.jxust.log.model.ProberLog(d.deviceName, d.area.areaName,d.area.department.departmentName, em.deviceStatus, em.timeLaber) from ExplorerMessage as em, Device as d where em.infoID ="
+			hql = "select new cn.jxust.log.model.ProberLog(d.deviceName, d.area.areaName,d.area.department.departmentName, em.deviceStatus, em.timeLaber, '1', 1) from ExplorerMessage as em, Device as d where em.infoID ="
 					+ deviceId + " order by em.timeLaber";
 		}
 		if (pageData.getPagination().isReadTotalCount()) {
@@ -132,14 +132,14 @@ public class DeviceLogDao extends BaseDao<DeviceLog> {
 				totalCount = HibernateUtils
 						.countQuery(
 								getSession(),
-								"from SysStateMessage as ssm, Device as d where ssm.infoID = d.deviceCode and d.area.department.departmentName='"
+								"from ExplorerMessage as em, Device as d where em.infoID = d.deviceCode and d.area.department.departmentName='"
 										+ department.getDepartmentName()
-										+ "' order by ssm.timeLaber");
+										+ "' order by em.timeLaber");
 			} else {
 				totalCount = HibernateUtils
 						.countQuery(
 								getSession(),
-								"from SysStateMessage as ssm, Device as d where ssm.infoID = d.deviceCode order by ssm.timeLaber");
+								"from ExplorerMessage as em, Device as d where em.infoID = d.deviceCode order by em.timeLaber");
 			}
 			pageData.getPagination().setTotalCount(totalCount);
 		}

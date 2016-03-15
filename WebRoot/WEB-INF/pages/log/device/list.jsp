@@ -9,7 +9,7 @@
 			<table class="searchContent">
 				<tr>
 					<td style="width:230px;">
-						<select class="combox" name="deviceId" ref="prober_select" refUrl="${ctx}/log/device/probers/{value}.php">
+						<select class="combox" name="deviceCode" ref="prober_select" refUrl="${ctx}/log/device/probers/{value}.php">
 							<option value="0">选择控制器</option>
 							<c:forEach var="entity" items="${devices}">
 								<option value="${entity.deviceCode}">${entity.deviceName}</option>
@@ -25,6 +25,7 @@
 						<input type="text" readonly="readonly" size="8" class="date" name="beginDate" value="${param['beginDate']}">
 							<span class="limit">-</span>
 						<input type="text" readonly="readonly" size="8" class="date" name="endDate" value="${param['endDate']}">
+						<input name="departmentId" type="hidden" value="${departmentId}"/>
 						</p>
 					</td>
 					<td>

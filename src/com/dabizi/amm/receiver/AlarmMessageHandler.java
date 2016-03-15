@@ -214,10 +214,11 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 				{
 					device.setStatus("<td id=\"" + device.getDeviceCode() + "status\" style=\"color:#009900\">正常</td>");
 					device.setDeviceFalutFlag(0);
-					deviceService.update(device);
 					sendRecoverShortMessage(sysMessage, device);
 
 				}
+				device.setNetFaultFlag(0);		// 只要正常，就要把网络故障状态恢复为0，即没有网故障。
+				deviceService.update(device);
 			} else // 控制器状态不正常
 			{
 				if (device.getDeviceFalutFlag() == 0) // 该设备第一次发送故障信息，发送一次短信
@@ -233,7 +234,6 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 
 	/**
 	 * 用于处理控制器故障消息
-	 * 
 	 * @param sysMessage  控制器消息对象
 	 * @param device 控制器
 	 * @param pointInfo 地图点信息
@@ -366,6 +366,12 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 		}
 	}
 
+	/**
+	 * 探测器或外控器故障
+	 * @param explorerMessage
+	 * @param device
+	 * @param pointInfo
+	 */
 	private void sendProberOrAttachDevcieMessage(ExplorerMessage explorerMessage, Device device, PointInfo pointInfo) {
 		StringBuffer msgSb = new StringBuffer();
 		int faultCount = 0;

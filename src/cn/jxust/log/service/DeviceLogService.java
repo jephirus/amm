@@ -49,7 +49,7 @@ public class DeviceLogService extends BaseService<DeviceLog>
 		return (DeviceLogDao)baseDao;
 	}
 
-	public PageData<DeviceLog> getDeviceLogByQuery(PageData<DeviceLog> pageData, Integer deviceCode, String proberNum, String beginDate, String endDate, int pageNum, Department department) {
+	public PageData<DeviceLog> getDeviceLogByQuery(PageData<DeviceLog> pageData, String deviceCode, String proberNum, String beginDate, String endDate, int pageNum, Department department) {
 		PageData<DeviceLog> pd = getDeviceLogDao().getDeviceLogByQuery(pageData, deviceCode, proberNum, beginDate, endDate, pageNum, department);
 		return pd;
 	}
@@ -87,7 +87,7 @@ public class DeviceLogService extends BaseService<DeviceLog>
 		return sb.toString();
 	}
 
-	public PageData<ProberLog> getProberLogByQuery(PageData<ProberLog> pageData, Integer deviceCode,
+	public PageData<ProberLog> getProberLogByQuery(PageData<ProberLog> pageData, String deviceCode,
 			String proberNum, String beginDate, String endDate, int pageNum, Department department) {
 		PageData<ProberLog> pd = getDeviceLogDao().getProberLogByQuery(pageData, deviceCode, proberNum, beginDate, endDate, pageNum, department);
 		return pd;
