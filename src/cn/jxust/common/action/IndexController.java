@@ -115,7 +115,7 @@ public class IndexController extends BaseDwzAction
 	}
 
 	/**
-	 * 后台加载页面
+	 * 加载页面
 	 * @param model
 	 * @return
 	 */

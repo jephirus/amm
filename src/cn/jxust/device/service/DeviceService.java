@@ -8,8 +8,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dabizi.amm.receiver.DeviceTimer;
-
 import cn.jxust.base.model.Area;
 import cn.jxust.base.model.Department;
 import cn.jxust.base.service.DepartmentService;
@@ -20,7 +18,6 @@ import cn.jxust.device.model.Prober;
 import cn.jxust.orm.PageData;
 import cn.jxust.orm.hibernate.BaseDao;
 import cn.jxust.orm.hibernate.BaseService;
-import cn.jxust.utils.SpringContextUtils;
 
 @Service
 @Transactional

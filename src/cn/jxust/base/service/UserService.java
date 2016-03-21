@@ -134,11 +134,14 @@ public class UserService extends BaseService<User>
 			sb.append(department.getDepartmentName().toString());
 			sb.append("</a><ul>");
 			for (Area area: department.getAreas()) {
-				sb.append("<li><a href=\"base/user/list/3.php");
+				sb.append("<li><a href=\"base/user/list/3.php\"");
 				sb.append(" target=\"navTab\" rel=\"userList\">");
 				sb.append(area.getAreaName());
 				sb.append("</a></li>");
 			}
+			sb.append("<li><a href=\"base/deparea/list.php\"");
+			sb.append(" target=\"navTab\" rel=\"areaList\">区域维护");
+			sb.append("</a></li>");
 			sb.append("</ul></li>");
 		}
 		else  //超级管理员登录
@@ -153,6 +156,8 @@ public class UserService extends BaseService<User>
 				sb.append(".php\" target=\"navTab\" rel=\"userList\">单位管理员维护");
 				sb.append("</a></li>");
 				sb.append("<li><a href=\"base/user/list/2.php\" target=\"navTab\" rel=\"userList\">单位访客维护");
+				sb.append("</a></li>");
+				sb.append("<li><a href=\"base/deparea/list.php\" target=\"navTab\" rel=\"areaList\">区域维护");
 				sb.append("</a></li>");
 				sb.append("</ul></li>");
 			}

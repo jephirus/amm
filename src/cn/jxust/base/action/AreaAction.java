@@ -37,7 +37,7 @@ public class AreaAction extends BaseDwzAction{
 	 * @param: @param pageNum
 	 * @param: @param entity
 	 */
-	@RequestMapping(value="/list.php",method=RequestMethod.GET)
+	@RequestMapping(value="/list.php")
 	public ModelMap findArea(@RequestParam(defaultValue="1") int pageNum,Area entity){
 		
 		User user = this.getCurrentUser();

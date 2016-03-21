@@ -157,7 +157,7 @@ public class MyDecoder extends CumulativeProtocolDecoder {
 							SysStateMessage controlStatus=new SysStateMessage();
 							controlStatus.setDataCount(amount);
 							controlStatus.setDataLength(dataLen);
-							controlStatus.setInfoID(ID + str.substring(50+j, 52+j));	// 信息ID+系统地址
+							controlStatus.setInfoID(ID + str.substring(50+j, 52+j));	// 信息ID+系统地址，代表当前控制器ID，用于惟一识别控制器
 							controlStatus.setSerialNum(swiftN);
 							controlStatus.setVersionNum(version);
 							controlStatus.setCommand(order);
@@ -211,7 +211,7 @@ public class MyDecoder extends CumulativeProtocolDecoder {
 						List<Object> exMessage=new ArrayList<Object>();
 						for (int i = 0; i < amount; i++) {
 							ExplorerMessage exstatus=new ExplorerMessage();
-							exstatus.setInfoID(ID + str.substring(50 + jd, 52 + jd));	// 信息ID+系统地址
+							exstatus.setInfoID(ID + str.substring(50 + jd, 52 + jd));	// 信息ID+系统地址，代表当前控制器ID，用于惟一识别控制器
 							exstatus.setCommand(order);
 							exstatus.setDataCount(amount);
 							exstatus.setDataLength(dataLen);
@@ -277,7 +277,7 @@ public class MyDecoder extends CumulativeProtocolDecoder {
 							ConcentrationMessage valueMessage=new ConcentrationMessage();
 							valueMessage.setCommand(order);
 							valueMessage.setDataLength(dataLen);
-							valueMessage.setInfoID(ID + str.substring(50 + jv, 52 + jv));	// 信息ID+系统地址
+							valueMessage.setInfoID(ID + str.substring(50 + jv, 52 + jv));	// 信息ID+系统地址，代表当前控制器ID，用于惟一识别控制器
 							valueMessage.setSerialNum(swiftN);
 							valueMessage.setVersionNum(version);
 							valueMessage.setTimeLaber(date);
