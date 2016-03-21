@@ -7,13 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dabizi.point.dao.PointInfoDao;
-import com.dabizi.point.model.PointInfo;
-
 import cn.jxust.base.model.User;
 import cn.jxust.orm.PageData;
 import cn.jxust.orm.hibernate.BaseDao;
 import cn.jxust.orm.hibernate.BaseService;
+
+import com.dabizi.point.dao.PointInfoDao;
+import com.dabizi.point.model.PointInfo;
 
 @Service
 @Transactional

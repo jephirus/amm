@@ -2,11 +2,11 @@ package cn.jxust.base.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import cn.jxust.base.model.Department;
 import cn.jxust.orm.PageData;
 import cn.jxust.orm.hibernate.BaseDao;
-
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class DepartmentDao extends BaseDao<Department>

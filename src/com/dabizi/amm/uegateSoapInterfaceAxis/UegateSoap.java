@@ -8,7 +8,6 @@ package com.dabizi.amm.uegateSoapInterfaceAxis;
   */
 
 import org.apache.axis.client.Call;
-
 import org.apache.axis.client.Service;
 
 public class UegateSoap {

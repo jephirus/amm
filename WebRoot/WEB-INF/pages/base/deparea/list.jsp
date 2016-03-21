@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 
-<form id="pagerForm" method="post" action="${ctx}/base/area/list.php">
+<form id="pagerForm" method="post" action="${ctx}/base/deparea/list.php">
 	<input type="hidden" name="pageNum" value="${pageData.pagination.pageNo}" />
 	<input type="hidden" name="numPerPage" value="${pageData.pagination.pageSize}" />
 </form>

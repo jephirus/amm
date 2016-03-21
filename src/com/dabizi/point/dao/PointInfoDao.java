@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.dabizi.point.model.PointInfo;
-
 import cn.jxust.base.model.User;
 import cn.jxust.orm.hibernate.BaseDao;
+
+import com.dabizi.point.model.PointInfo;
 
 @Repository
 public class PointInfoDao extends BaseDao<PointInfo> {
