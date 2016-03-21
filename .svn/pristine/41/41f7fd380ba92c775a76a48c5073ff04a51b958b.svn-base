@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="cn.jxust.base.model.Area" table="base_area">
+		<id name="areaId" type="java.lang.Integer" column="AREA_ID"
+			unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="areaName" type="java.lang.String" column="AREA_NAME"
+			length="50">
+		</property>
+
+		<many-to-one name="department" column="department_id" lazy="false"
+			class="cn.jxust.base.model.Department">
+		</many-to-one>
+		
+		<set name="devices" order-by="id" inverse="true" lazy="true">
+			<key column="area_id" not-null="true" ></key><!-- 一方的主键作为多方的外键 -->
+			<one-to-many class="cn.jxust.device.model.Device"/><!-- 多方实体类 -->
+		</set>
+        		
+	</class>
+</hibernate-mapping>

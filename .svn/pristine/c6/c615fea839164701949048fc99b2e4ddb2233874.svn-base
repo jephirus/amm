@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.jxust.device.model.ExplorerMessage" table="device_explorerMessage">
+
+		<id column="id" name="id" type="java.lang.Integer" unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="startChar" type="java.lang.String">
+			<column name="startChar" unique="true" length="20"></column>
+		</property>
+
+		<property column="timeLaber" length="50" name="timeLaber"
+			type="java.lang.String">
+		</property>
+
+		<property column="infoID" length="50" name="infoID" type="java.lang.String">
+		</property>
+
+		<property column="serialNum" length="50" name="serialNum"
+			type="java.lang.Integer">
+		</property>
+		
+		<property column="versionNum" length="50" name="versionNum"
+			type="java.lang.Integer">
+		</property>
+		
+		<property column="dataLength" length="50" name="dataLength"
+			type="java.lang.Integer">
+		</property>
+		
+		<property column="command" length="50" name="command"
+			type="java.lang.Integer">
+		</property>
+		
+		<property column="checkSum" length="50" name="checkSum"
+			type="java.lang.Integer">
+		</property>
+
+		<property column="endChar" length="50" name="endChar"
+			type="java.lang.String">
+		</property>
+				
+		<property column="unitStatus" length="200" name="unitStatus"
+			type="java.lang.String">
+		</property>
+		<property name="dataType" column="dataType" length="50" type="java.lang.Integer">
+		</property>
+		
+		<property name="dataUnitBsm" column="dataUnitBsm" length="50" type="java.lang.Integer">
+		</property>
+		
+		<property name="dataCount" column="dataCount" length="50" type="java.lang.Integer">
+		</property>
+		
+		<property name="sysAddress" column="sysAddress" length="200" type="java.lang.String">
+		</property>
+		
+		<property name="deviceType" column="deviceType" length="50" type="java.lang.Integer">
+		</property>
+		<property name="deviceAddress" column="deviceAddress" length="200" type="java.lang.String">
+		</property>
+		<property name="deviceStatus" column="deviceStatus" length="200" type="java.lang.String">
+		</property>
+		
+	</class>
+</hibernate-mapping>

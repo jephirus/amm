@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.jxust.base.model.Role" table="base_role">
+
+		<id column="role_id" name="roleId" type="java.lang.Integer">
+			<generator class="assigned" />
+		</id>
+
+		<property column="role_name" length="40" generated="never"
+			name="roleName" type="java.lang.String" />
+
+		<property column="role_desc" length="60" generated="never"
+			name="roleDesc" type="java.lang.String" />
+
+		<list name="resources" table="base_role_auth" cascade="save-update"
+			lazy="false">
+			<key column="role_id" />
+			<index column="xh"></index>
+			<many-to-many class="cn.jxust.base.model.Authority"
+				column="auth_id" />
+		</list>
+	</class>
+</hibernate-mapping>

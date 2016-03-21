@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="cn.jxust.base.model.Authority" table="base_authorities">
+		<id name="authId" type="java.lang.Integer" column="AUTH_ID"
+			unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="authority" type="java.lang.String" column="AUTHORITY"
+			length="50">
+		</property>
+
+		<property name="authName" type="java.lang.String" column="AUTH_NAME"
+			length="50">
+		</property>
+
+		<property name="authType" type="java.lang.String" column="AUTH_TYPE"
+			length="50">
+		</property>
+
+		<property name="authDesc" type="java.lang.String" column="AUTH_DESC"
+			length="50">
+		</property>
+
+		<property name="protectedRes" type="java.lang.String" column="PROTECTED_RES"
+			length="50">
+		</property>
+	</class>
+</hibernate-mapping>

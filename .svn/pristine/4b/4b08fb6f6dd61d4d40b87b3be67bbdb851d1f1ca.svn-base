@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">  
+<head>    
+	<title>中共定南县政法委平安建设网</title>   
+  <meta charset="utf-8">
+	<!-- Bootstrap -->    
+	<link href="css/bootstrap.css" rel="stylesheet" media="screen">
+	<link href="css/default.css" rel="stylesheet" media="screen">
+</head>  
+<body>
+	<div class="container">
+
+    <div class="masthead">
+      <ul class="nav nav-pills pull-right">
+        <li><a class="menu" href="#">网站首页</a></li>
+        <li><a class="menu" href="#">系统概述</a></li>
+        <li><a class="menu" href="#">文件中心</a></li>
+        <li><a class="menu" href="#">评价排名</a></li>
+        <li><a class="menu" href="#">意见反馈</a></li>
+        <li><a class="menu" href="#">社会治安预警</a></li>
+      </ul>
+      <h3 class="title"><img src="img/logo.png" widtn="40" border="0"/>中共定南县政法委平安建设网</h3>
+    </div>
+    <!-- /masthead --> 
+
+    <div class="head">
+      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="945" height="198" title="top">
+        <param name="movie" value="img/top.swf">
+        <param name="quality" value="high">
+        <embed src="img/top.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="945" height="198"></embed>
+      </object>
+    </div>
+
+    <div class="container mainbody">
+      <div class="alert">
+            Best check yo self, you're not...
+      </div>
+      <!--Body content-->
+      <div class="row-fluid">
+        <div class="span9">
+          <div class="row-fluid">
+            <div class="span5">
+              <img src="img/test.jpg" class="img-polaroid"/>
+            </div>
+
+            <div class="span7">
+              <h5 class="maintitle">网站动态</h5>
+              <ul class="unstyled">
+                <li>Facilisis in pretium nisl aliquet</li>
+                <li>Nulla volutpat aliquam velit</li>
+                <li>Phasellus iaculis neque Consectetur adipiscing elit</li>
+                <li>Purus sodales ultricies Consectetur adipiscing elit</li>
+                <li>Vestibulum laoreet porttitor sem</li>
+                <li>Ac tristique libero volutpat at</li>
+              </ul>
+            </div>
+          </div>
+
+          <br/>
+          <div class="row-fluid">
+            <img src="img/bar.jpg" width="100%" class="img-polaroid"/>
+          </div>
+
+          <div class="row-fluid">
+            <div class="span6">
+              <h5 class="column">文件中心<span class="more"><a href="">更多</a></span></h5>
+              <ul class="unstyled">
+                <li>Lorem ipsum dolor sit amet</li>
+                <li>Consectetur adipiscing elit</li>
+                <li>Integer molestie lorem at massa</li>
+                <li>Facilisis in pretium nisl aliquet</li>
+                <li>Nulla volutpat aliquam velit</li>
+                <li>Phasellus iaculis neque</li>
+                <li>Purus sodales ultricies</li>
+                <li>Vestibulum laoreet porttitor sem</li>
+                <li>Ac tristique libero volutpat at</li>
+              </ul>
+            </div>
+
+            <div class="span6">
+              <h5 class="column">治安预警<span class="more"><a href="">更多</a></span></h5>
+              <ul class="unstyled">
+                <li>Lorem ipsum dolor sit amet</li>
+                <li>Consectetur adipiscing elit</li>
+                <li>Integer molestie lorem at massa</li>
+                <li>Facilisis in pretium nisl aliquet</li>
+                <li>Nulla volutpat aliquam velit</li>
+                <li>Phasellus iaculis neque</li>
+                <li>Purus sodales ultricies</li>
+                <li>Vestibulum laoreet porttitor sem</li>
+                <li>Ac tristique libero volutpat at</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row-fluid">
+            <h5 class="table_range">评价排名</h5>
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Username</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Larry</td>
+                  <td>the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="span3">
+          <!-- 今日天气 -->
+          <div>
+            <h5>今天是2013年6月3日 星期一</h5>
+            <iframe src="http://m.weather.com.cn/m/pn7/weather.htm?id=101240715T " width="195" height="20" allowtransparency="true" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no" ></iframe>
+            <div>
+              <!-- 指标发布 -->
+              <div>
+                <h5 class="right_title">动态指标发布</h5>
+                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+              </div>
+              <!-- 用户登录 -->
+              <div>
+                <form class="form-signin">
+                  <h5 class="form-signin-heading right_title">用户登录</h5>
+                  用户<input type="text" class="input-block-level" placeholder="输入用户名">
+                  密码<input type="password" class="input-block-level" placeholder="输入密码">
+                  <label class="checkbox">
+                    <input type="checkbox" value="remember-me"> 记住密码
+                  </label>
+                  <button class="btn btn-small btn-primary" type="submit">登录</button>
+                </form>
+              </div>
+              <!-- 栏目 -->
+              <div class="tabbablee">
+                <ul class="nav nav-tabs" id="myTab">
+                  <li class="active"><a href="#tab1" data-toggle="tab">表扬栏</a></li>
+                  <li><a href="#tab2" data-toggle="tab">通报栏</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab1">
+                    <p>I'm in Section 1.</p>
+                  </div>
+                  <div class="tab-pane" id="tab2">
+                    <p>Howdy, I'm in Section 2.</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /tabbable -->
+              <div>
+                <select>
+                  <option>友情链接</option>
+                  <option>友情链接</option>
+                  <option>友情链接</option>
+                  <option>友情链接</option>
+                  <option>友情链接</option>
+                  <option>友情链接</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /body content --> 
+    </div>
+    <!-- /container-fluid -->
+
+    <div class="footer">
+      <div class="tail">
+        设为首页 | 加入收藏 | 关于我们 | 网站声明 | 意见反馈 | 联系我们
+      </div>
+      <div class="copyright">
+        <p>Copyright &copy; 定南县平安建设网 2013</p>
+        <p>定南县委政法委 主办 联系地址：定南县历市镇龙亭路 邮编：341900</p>
+        <p>技术支持：定南县委政法委 江西理工大学信息工程学院 </p>
+      </div>
+    </div>
+  </div> 
+  <!-- /container -->
+  <script src="js/jquery-1.9.1.min.js"></script>   
+  <script src="js/bootstrap.js"></script>
+  <script src="js/default.js"></script> 
+</body>
+</html>

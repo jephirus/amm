@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dabizi.point.model.PointInfo" table="point_info">
+		<id name="id" type="java.lang.Integer" column="point_info_id">
+			<generator class="identity"></generator>
+		</id>
+		
+		<property name="longitude" type="java.lang.String">
+			<column name="longitude" length="50" />
+		</property>
+		
+		<property name="pointStatus" type="java.lang.String">
+			<column name="pointStatus" length="50" />
+		</property>
+		
+		<property name="latitude" type="java.lang.String">
+			<column name="latitude" length="50" />
+		</property>
+		
+		<property name="status" type="java.lang.Integer">
+			<column name="status" length="5" />
+		</property>
+		
+		<!-- 控制器和结点是一对一关系，通过一对多关系实现 -->
+		<many-to-one name="device" unique="true" class="cn.jxust.device.model.Device"  column="device_id"/>
+		
+	</class>
+</hibernate-mapping>

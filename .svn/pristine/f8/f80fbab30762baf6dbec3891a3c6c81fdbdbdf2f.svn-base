@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">  
+<head>    
+	<title>中共定南县政法委平安建设网</title>   
+  <meta charset="utf-8">
+  <!-- Bootstrap -->    
+  <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+  <link href="css/default.css" rel="stylesheet" media="screen">
+</head>  
+<body data-spy="scroll">
+	<div class="container">
+
+    <div class="masthead">
+      <ul class="nav nav-pills pull-right">
+        <li><a class="menu" href="#">网站首页</a></li>
+        <li><a class="menu" href="#">系统概述</a></li>
+        <li><a class="menu" href="#">文件中心</a></li>
+        <li><a class="menu" href="#">评价排名</a></li>
+        <li><a class="menu" href="#">意见反馈</a></li>
+        <li><a class="menu" href="#">社会治安预警</a></li>
+      </ul>
+      <h3 class="title"><img src="img/logo.png" widtn="40" border="0"/>中共定南县政法委平安建设网</h3>
+    </div>
+    <!-- /masthead --> 
+    <!--
+    <div class="head">
+      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="945" height="198" title="top">
+        <param name="movie" value="img/top.swf">
+        <param name="quality" value="high">
+        <embed src="img/top.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="945" height="198"></embed>
+      </object>
+    </div>
+  -->
+  <div class="container mainbody">
+    <div class="alert">
+      Best check yo self, you're not...
+    </div>
+    <!--Body content-->
+    <div class="row-fluid">
+      <div class="span9">
+        <table class="table table-hover table-striped table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th width="40">序号</th>
+              <th width="40">类别</th>
+              <th width="40">单位</th>
+              <th>指标得分</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>A类</td>
+              <td>单位名称</td>
+              <td>
+                <table class="table table-hover table-striped table-bordered table-condensed">
+                  <thead>
+                    <tr>
+                      <th>类型</th>
+                      <th>指标名称</th>
+                      <th>分值</th>
+                      <th>得分</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>A类</td>
+              <td>单位名称</td>
+              <td>
+                <table class="table table-hover table-striped table-bordered table-condensed">
+                  <thead>
+                    <tr>
+                      <th>类型</th>
+                      <th>指标名称</th>
+                      <th>分值</th>
+                      <th>得分</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>A类</td>
+              <td>单位名称</td>
+              <td>
+                <table class="table table-hover table-striped table-bordered table-condensed">
+                  <thead>
+                    <tr>
+                      <th>类型</th>
+                      <th>指标名称</th>
+                      <th>分值</th>
+                      <th>得分</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                    <tr>
+                      <td>固定指标</td>
+                      <td>公众安全性系数</td>
+                      <td>10.0</td>
+                      <td><input type="text" class="input-small" placeholder="输入得分"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="span3">
+        <table class="table table-bordered text-center" data-spy="affix" data-offset-top="100" style="width:200px;top:10px;">
+          <thead>
+            <tr>
+              <th width="50%">单位数据包</th>
+              <th width="50%">固定指标<br/>数据包</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <a href="#" role="button" class="btn" data-toggle="modal">1月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">2月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">3月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">4月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">5月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">6月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">7月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">8月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">9月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">10月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">11月份</a>
+                <a href="#" role="button" class="btn" data-toggle="modal">12月份</a>
+              </td>
+              <td>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">公安</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">检查院</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">法院</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">司法局</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">信访办</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">安监局</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">交管局</a>
+                <a href="#" role="button" class="btn btn-primary" data-toggle="modal">林业局</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <!-- /body content --> 
+  </div>
+  <!-- /container-fluid -->
+
+  <div class="footer">
+    <div class="tail">
+      设为首页 | 加入收藏 | 关于我们 | 网站声明 | 意见反馈 | 联系我们
+    </div>
+    <div class="copyright">
+      <p>Copyright &copy; 定南县平安建设网 2013</p>
+      <p>定南县委政法委 主办 联系地址：定南县历市镇龙亭路 邮编：341900</p>
+      <p>技术支持：定南县委政法委 江西理工大学信息工程学院 </p>
+    </div>
+  </div>
+</div> 
+<!-- /container -->
+<script src="js/jquery-1.9.1.min.js"></script>   
+<script src="js/bootstrap.js"></script>   
+</body>
+</html>

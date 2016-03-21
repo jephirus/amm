@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="register_report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="466" leftMargin="60" rightMargin="69" topMargin="42" bottomMargin="123" uuid="d4616e93-574b-454e-a063-6407d16e4189">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="77"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="department.departmentName" class="java.lang.String"/>
+	<field name="duty" class="java.lang.String"/>
+	<field name="mainAffair" class="java.lang.String"/>
+	<field name="bonusOrPenalty" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="eca09733-b491-4b8b-8f06-24ded1e72522" x="0" y="0" width="466" height="45"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="黑体" size="20"/>
+				</textElement>
+				<text><![CDATA[综治、维稳责任人处罚情况登记表]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2273ca10-0e27-4de6-8e87-049b80129f8b" x="0" y="0" width="466" height="27"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[            年 上（下）半年]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="595" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="86bea143-f08c-4766-858f-d9057a5fc631" x="0" y="0" width="71" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[姓 名]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1afdec36-52fc-4814-8e19-42fbcd63ce33" x="142" y="0" width="68" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[单 位]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c08950a0-a4f3-49af-b8ea-1f673e245b09" x="304" y="0" width="99" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[职 务]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f592a9e6-6fe7-426d-b822-6659a790113f" x="0" y="20" width="71" height="402"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[主
+要
+问
+题]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e63f020e-34b0-415d-8b11-597b9054935e" x="0" y="422" width="71" height="173"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[受
+何
+种
+处
+罚]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="870e35f7-b4b7-488c-8884-9f7ce80a61a0" x="71" y="530" width="395" height="64"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[综治委（印章）
+年   月   日]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="62d51c9f-3da0-4572-8efe-5385559122b7" x="466" y="422" width="1" height="172"/>
+			</line>
+			<line>
+				<reportElement uuid="78751e70-f2fe-475a-8e40-1162c88699de" x="71" y="594" width="395" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="9ad73fd1-104d-40b8-aa0f-f558cdf08a35" x="71" y="0" width="71" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0611bb1d-798e-4638-91f4-fa16f2592fde" x="210" y="0" width="94" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{department.departmentName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="242f2f3f-9bb4-4016-a877-f893caf1b6c1" x="403" y="0" width="63" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{duty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d5671dc5-1053-4498-9ce2-4ee506fc0fd1" x="71" y="20" width="395" height="402"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{mainAffair}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1467e1b2-5be5-4bf7-8898-42083317c2b7" x="71" y="422" width="395" height="108"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{bonusOrPenalty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

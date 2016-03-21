@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	   http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+	<!-- 导入外部文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<!-- 配置dataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="minIdle" value="${jdbc.minIdle}" />
+	</bean>
+
+	<!-- 配置sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+
+				<!-- 让session和当前线程绑定一起，直至线程销毁 -->
+				<prop key="current_session_context_class">thread</prop>
+				<!-- 开启SessionFactory二级缓存，默认关闭，并配置使用EhCache作为缓存容器 -->
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<!-- 开启查询缓存，执行HQL返回的对象会被缓存 -->
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<!-- 设置事务提交后自动关闭session，不用在代码中手动关闭 -->
+				<prop key="hibernate.auto_close_session">true</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>cn/jxust/base/model/Config.hbm.xml</value>
+				<value>cn/jxust/base/model/Area.hbm.xml</value>
+				<value>cn/jxust/base/model/Department.hbm.xml</value>
+
+				<value>cn/jxust/base/model/User.hbm.xml</value>
+				<value>cn/jxust/base/model/Role.hbm.xml</value>
+				<value>cn/jxust/base/model/Authority.hbm.xml</value>
+				<value>cn/jxust/base/model/ShortMessage.hbm.xml</value>
+				
+				<value>cn/jxust/sms/model/SMS.hbm.xml</value>
+				<value>cn/jxust/device/model/SysStateMessage.hbm.xml</value>
+				<value>cn/jxust/device/model/ExplorerMessage.hbm.xml</value>
+				<value>cn/jxust/device/model/ConcentrationMessage.hbm.xml</value>
+				<value>cn/jxust/device/model/Device.hbm.xml</value>
+				<value>cn/jxust/device/model/Prober.hbm.xml</value>
+				<value>cn/jxust/device/model/AttachDevice.hbm.xml</value>
+				<value>cn/jxust/device/model/AlarmParameter.hbm.xml</value>
+				
+				<value>com/dabizi/point/model/PointInfo.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置事务管理 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- 激活Spring注解方式：事务处理 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+	<!-- 激活Spring注解方式：自动扫描，并注入bean -->
+	<context:component-scan base-package="cn.jxust.*.dao" />
+	<context:component-scan base-package="com.dabizi.point.dao" />
+	<context:component-scan base-package="cn.jxust.*.service" />
+	<context:component-scan base-package="com.dabizi.point.service" />
+	<context:component-scan base-package="com.dabizi.amm.receiver" />
+	<context:component-scan base-package="com.dabizi.amm.websocket" />
+
+	<!-- Spring context 环境 -->
+	<bean id="springContextUtils" class="cn.jxust.utils.SpringContextUtils"></bean>
+
+	<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Mina<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+	<!-- Mina 整合 -->
+
+	<!-- 累加数据包解码器：解决丢包，沾包问题 -->
+	<bean id="codecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+		<constructor-arg>
+			<bean class="com.dabizi.amm.mina.util.MyCodecFactory">
+				<constructor-arg index="0">
+					<bean class="com.dabizi.amm.mina.util.MyEncoder"></bean>
+				</constructor-arg>
+				<constructor-arg index="1">
+					<bean class="com.dabizi.amm.mina.util.MyDecoder">
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<!-- 日志过滤器 -->
+	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter" />
+
+
+	<!-- 过滤器链 -->
+	<bean id="filterChainBuilder"
+		class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+		<property name="filters">
+			<map>
+				<entry key="loggingFilter" value-ref="loggingFilter" />
+				<entry key="codecFilter" value-ref="codecFilter" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 设置 I/O 接受器，并指定接收到请求后交给 myHandler 进行处理 -->
+	<bean id="customEditorConfigurer"
+		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="java.net.SocketAddress"
+					value="org.apache.mina.integration.beans.InetSocketAddressEditor" />
+			</map>
+		</property>
+	</bean>
+
+
+	<!-- 定义数据处理Bean -->
+	<bean id="dbzHandler" class="com.dabizi.amm.receiver.AlarmMessageHandler">
+		<property name="messageService">
+			<ref bean="messageService" />
+		</property>
+		<property name="deviceService">
+			<ref bean="deviceService" />
+		</property>
+		<property name="alarmParameterService">
+			<ref bean="alarmParameterService" />
+		</property>
+	</bean>
+
+	<!-- IoAccepter，绑定到3003端口 -->
+	<bean id="ioAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+		init-method="bind" destroy-method="unbind">
+		<property name="defaultLocalAddress" value=":3003" />
+		<property name="filterChainBuilder" ref="filterChainBuilder" />
+		<property name="handler" ref="dbzHandler" />
+		<property name="reuseAddress" value="true" />
+	</bean>
+
+	<!-- Websocket实现即时通信 -->
+	<bean id="websocket" class="com.dabizi.amm.websocket.SystemWebSocketHandler"/>  
+	  
+	<websocket:handlers allowed-origins="*">  
+	    <websocket:mapping path="/websocket" handler="websocket"/>  
+	    <websocket:handshake-interceptors>  
+	    	<bean class="com.dabizi.amm.websocket.HandshakeInterceptor"/>  
+	    </websocket:handshake-interceptors>  
+	</websocket:handlers>
+	
+	<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+	    <property name="maxTextMessageBufferSize" value="8192"/>
+	    <property name="maxBinaryMessageBufferSize" value="8192"/>
+	    <property name="maxSessionIdleTimeout" value="900000"/>
+	    <property name="asyncSendTimeout" value="5000"/>
+	</bean>
+</beans>

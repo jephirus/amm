@@ -1,0 +1,30 @@
+	// 用于实时信故障信息显示
+    function connect() {
+       	ws = new WebSocket('ws://127.0.0.1:888/amm/websocket');
+        
+        ws.onopen = function () {
+            log('Info: connection opened.');
+        };  
+        ws.onmessage = function (event) {
+        	var message = event.data.split('*#*');
+            log('Received: ' + event.data);  
+        };  
+        ws.onclose = function (event) {
+            setConnected(false);
+            log('Info: connection closed.');
+            log(event);
+        };  
+    }  
+
+	// 用于websocket消息输出
+    function log(message) {
+        var console = document.getElementById('console');  
+        var p = document.createElement('p');  
+        p.style.wordWrap = 'break-word';  
+        p.appendChild(document.createTextNode(message));  
+        console.appendChild(p);  
+        while (console.childNodes.length > 25) {  
+            console.removeChild(console.firstChild);
+        }
+        console.scrollTop = console.scrollHeight;
+    }

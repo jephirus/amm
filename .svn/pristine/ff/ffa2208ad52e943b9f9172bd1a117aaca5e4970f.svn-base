@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.jxust.device.model.AlarmParameter" table="device_alarm_parameter">
+
+		<id column="id" name="id" type="java.lang.Integer">
+			<generator class="identity"></generator>
+		</id>
+
+		<property column="standConcentration" length="50" name="standConcentration"
+			type="java.lang.String">
+		</property>
+		
+		<property column="unit" length="50" name="unit"
+			type="java.lang.String">
+		</property>
+		
+	</class>
+</hibernate-mapping>

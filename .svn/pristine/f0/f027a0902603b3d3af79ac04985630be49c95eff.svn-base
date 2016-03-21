@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.jxust.base.model.ShortMessage" table="base_short_message">
+
+		<id column="id" name="id" type="java.lang.Integer"
+			unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="content" type="java.lang.String">
+			<column name="content" unique="true" length="200"></column>
+		</property>
+		
+		<property column="postime" length="50" name="postime"
+			type="java.lang.String" >
+		</property>
+
+		<property column="status" length="50" name="status"
+			type="java.lang.Integer">
+		</property>
+
+	</class>
+</hibernate-mapping>

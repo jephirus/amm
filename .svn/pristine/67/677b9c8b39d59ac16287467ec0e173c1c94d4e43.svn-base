@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="cn.jxust.device.model.Device" table="device">
+		
+		<id name="deviceId" type="java.lang.Integer" column="device_id" unsaved-value="0">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="deviceCode" type="java.lang.String">
+			<column name="device_code" />
+		</property>
+		
+		<property name="deviceName" type="java.lang.String">
+			<column name="deviceName" length="80" />
+		</property>
+		
+		<property name="status" type="java.lang.String">
+			<column name="status" length="120" />
+		</property>
+		
+		<property name="proberCount" type="java.lang.Integer">
+			<column name="prober_count" length="10" />
+		</property>
+		
+		<property name="proberAlarmCount" type="java.lang.Integer">
+			<column name="prober_alarm_count" length="10" />
+		</property>
+		
+		<property name="proberFaultCount" type="java.lang.Integer">
+			<column name="prober_fault_count" length="10" />
+		</property>
+		
+		<property name="attachDeviceCount" type="java.lang.Integer">
+			<column name="attach_device_count" length="10" />
+		</property>
+		
+		<property name="attachDeviceFaultCount" type="java.lang.Integer">
+			<column name="attach_device_fault_count" length="10" />
+		</property>
+		
+		<property name="flag" type="java.lang.Boolean" column="flag"></property>
+		
+		<!-- probers属性，本类与Prober的一对多 -->
+		<set name="probers" order-by="prober_id" inverse="true" lazy="false" cascade="all">
+			<key column="device_id" not-null="true" ></key><!-- 多方的外键 -->
+			<one-to-many class="cn.jxust.device.model.Prober"/><!-- 多方实体类 -->
+		</set>
+        
+		<!-- deviceManagers属性，本类与User的多对多 -->
+        <set name="deviceManagers" table="user_device" lazy="false">
+            <key column="device_id"/>  
+            <many-to-many column="user_id" class="cn.jxust.base.model.User" />  
+        </set>
+        
+        <!-- attachDevices属性，本类与Prober的一对多 -->
+		<set name="attachDevices" order-by="attach_device_id" inverse="true" lazy="false" cascade="all">
+			<key column="device_id" not-null="true" ></key><!-- 多方的外键 -->
+			<one-to-many class="cn.jxust.device.model.AttachDevice"/><!-- 多方实体类 -->
+		</set>
+        
+        <!-- property-ref="device" 表示关联类的属性名，即对应类的保存本类的属性名  该类中 使用一对多方式实现一对一关系 -->
+        <one-to-one name="pointInfo" class="com.dabizi.point.model.PointInfo" cascade="all" property-ref="device"/>
+        
+        <many-to-one name="area" column="area_id" lazy="false"
+            class="cn.jxust.base.model.Area">   <!-- column="area_id"外键名  -->  
+        </many-to-one>
+        
+	</class>
+</hibernate-mapping>
