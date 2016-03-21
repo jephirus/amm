@@ -200,7 +200,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	private void haddleDevice(SysStateMessage sysMessage, PointInfo pointInfo)
 	{
 
-		String address = sysMessage.getInfoID() + sysMessage.getSysAddress(); // 此外为控制器地址
+		String address = sysMessage.getInfoID(); // 此外为控制器地址，InfoID和系统ID组成
 		Device device = deviceService.findByDeviceCode(address); // 获取控制器
 		String status = sysMessage.getControllerStatus(); // 获取控制器状态
 
@@ -283,7 +283,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 */
 	private void haddleProber(ExplorerMessage explorerMessage, PointInfo pointInfo, String timeLaber)
 	{
-		Device device = deviceService.findByDeviceCode(explorerMessage.getInfoID() + explorerMessage.getSysAddress());
+		Device device = deviceService.findByDeviceCode(explorerMessage.getInfoID());
 		int type = explorerMessage.getDeviceType(); // 判断是否是探测器或外控器地址。
 		String status = explorerMessage.getDeviceStatus(); // 控测器或外控器的当前状态
 
@@ -426,7 +426,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 */
 	private void handleProberWithConcentration(ConcentrationMessage conMessage, PointInfo pointInfo, String timeLaber) {
 
-		Device device = deviceService.findByDeviceCode(conMessage.getInfoID() + conMessage.getSysAddress());
+		Device device = deviceService.findByDeviceCode(conMessage.getInfoID());
 		if (null != device) // 如果存在该设备
 		{
 			pointInfo = device.getPointInfo();
@@ -698,8 +698,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 */
 	private void handleLineOrProberError(ConcentrationMessage conMessage,
 			PointInfo pointInfo, String timeLaber, String status) {
-		Device device = deviceService.findByDeviceCode(conMessage.getInfoID()
-				+ conMessage.getSysAddress());
+		Device device = deviceService.findByDeviceCode(conMessage.getInfoID());
 
 		if (null != device) // 如果存在该设备
 		{
