@@ -696,8 +696,7 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 	 * @param timeLaber
 	 * @param status
 	 */
-	private void handleLineOrProberError(ConcentrationMessage conMessage,
-			PointInfo pointInfo, String timeLaber, String status) {
+	private void handleLineOrProberError(ConcentrationMessage conMessage, PointInfo pointInfo, String timeLaber, String status) {
 		Device device = deviceService.findByDeviceCode(conMessage.getInfoID());
 
 		if (null != device) // 如果存在该设备
@@ -721,12 +720,9 @@ public class AlarmMessageHandler extends IoHandlerAdapter {
 		}
 	}
 
-	private void handleProberForEarlyWarning(ConcentrationMessage conMessage,
-			Device device, String timeLaber) {
-		float simulation = Float.parseFloat(conMessage.getSimulation().split(
-				"%")[0]);
-		String address = "11" + device.getDeviceCode()
-				+ conMessage.getDeviceAddress(); // 此地址为该控制器下的探测器地址：控制器地址+探测器地址
+	private void handleProberForEarlyWarning(ConcentrationMessage conMessage, Device device, String timeLaber) {
+		float simulation = Float.parseFloat(conMessage.getSimulation().split("%")[0]);
+		String address = "11" + device.getDeviceCode() + conMessage.getDeviceAddress(); // 此地址为该控制器下的探测器地址：控制器地址+探测器地址
 		String[] flag = { "0" }; // 下标0为设备类型； 下标1为状态；下标2为设备类型为7时，“1”为报警“2”为故障.
 		StringBuffer ew = new StringBuffer();
 		StringBuffer recover = new StringBuffer();
